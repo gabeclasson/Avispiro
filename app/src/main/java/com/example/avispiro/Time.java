@@ -91,5 +91,24 @@ public class Time {
         this.minute = -1;
     }
 
+    public String toString(){
+        if (year < 0)
+            return null;
+        String out = "";
+        out += year;
+        if (month < 0)
+            return out;
+        out += "-" + month;
+        if (date < 0)
+            return out;
+        out += "-" + date;
+        if (hour < 0)
+            return out;
+        out += " " + hour;
+        if (minute < 0)
+            return out + ":00";
+        out += ":" + minute;
+        return out;
+    }
 
 }

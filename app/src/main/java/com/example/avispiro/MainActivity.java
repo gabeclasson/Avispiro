@@ -8,12 +8,13 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        // DEBUG DELETE LATER
+        MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
+        Log.d(TAG, "test");
+        Bird osprey = new Bird("Osprey", "A magestic bird", "OBX, NC", "Birds of prey", new Time(-1, 10, 30, 3, 45));
+        Log.d(TAG, "" + myD.addBird(osprey));
+        Log.d(TAG, myD.getBird(osprey.getId()).toString());
+        Log.d(TAG, myD.databasetoString());
+        Log.d(TAG, "test finish");
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDataBaseHelper";
@@ -22,7 +23,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_HOUR = "hour";
     public static final String COLUMN_MINUTE = "minute";
-    public static final String COLUMN_AVISID = "avisid";
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -38,11 +38,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = " CREATE TABLE " + TABLE_BIRDS + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE + " INTEGER, " + COLUMN_AVISID + " INTEGER ) "+ ";";
+                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
         db.execSQL(query);
+
     }
 
-    public void addBird(Bird bird) {
+    public int addBird(Bird bird) {
         ContentValues values = new ContentValues();
         Time time = bird.getTime();
         values.put(COLUMN_NAME, bird.getName());
@@ -54,16 +55,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DATE, time.getDate());
         values.put(COLUMN_HOUR, time.getHour());
         values.put(COLUMN_MINUTE, time.getMinute());
-        values.put(COLUMN_AVISID, bird.getId());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_BIRDS, null, values);
-
+        int id = db.rawQuery("SELECT last_insert_rowid();", null).getInt(0); // TEST THIS LATER
         db.close();
+        return id;
     }
 
-    public void removeBird(int avisId) {
+    public void removeBird(int id) {
         SQLiteDatabase db = getWritableDatabase();
-        String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_AVISID+ " =\"" + avisId + "\";";
+        String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
         db.execSQL(query);
 
     }
@@ -93,7 +94,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_DATE)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_HOUR)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_MINUTE)) + ", ";
-                dbstring += c.getInt(c.getColumnIndex(COLUMN_AVISID)) + ", ";
                 dbstring += "\n";
             }
             c.moveToNext();
@@ -104,8 +104,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Bird getBird(int avisId){
-
+    public Bird getBird(int id){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID + " = '" + id + "' ; ";
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        if (!c.isAfterLast()){
+            Bird bird = new Bird();
+            Time time = new Time();
+            bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+            bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
+            bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
+            bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+            time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
+            time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
+            time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
+            time.setHour(c.getInt(c.getColumnIndex(COLUMN_HOUR)));
+            time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
+            bird.setTime(time);
+            bird.setId(id);
+            return bird;
+        }
+        return null;
     }
 }
 

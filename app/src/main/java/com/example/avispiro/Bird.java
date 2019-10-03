@@ -1,7 +1,6 @@
 package com.example.avispiro;
 
 public class Bird {
-    public static int idGen = 0;
 
     private String name, description, place, category;
     private Time time;
@@ -13,7 +12,7 @@ public class Bird {
         place = "Nowhere";
         category = null;
         time = new Time();
-        id = idGen++;
+        this.id = -1;
     }
 
     public Bird(String name, String description, String place, String category, Time time){
@@ -22,7 +21,7 @@ public class Bird {
         this.place = place;
         this.category = category;
         this.time = time;
-        id = idGen++;
+        this.id = -1;
     }
 
     public Bird(String name, String description, String place, Time time){
@@ -31,7 +30,25 @@ public class Bird {
         this.place = place;
         this.category = null;
         this.time = time;
-        id = idGen++;
+        this.id = -1;
+    }
+
+    public Bird(String name, String description, String place, String category, Time time, int id){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = category;
+        this.time = time;
+        this.id = id;
+    }
+
+    public Bird(String name, String description, String place, Time time, int id){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = null;
+        this.time = time;
+        this.id = id;
     }
 
     public String getName() {
@@ -74,19 +91,18 @@ public class Bird {
         this.time = time;
     }
 
-    public static int getIdGen() {
-        return idGen;
-    }
-
-    public static void setIdGen(int idGen) {
-        Bird.idGen = idGen;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String toString(){
+        return name + " (" + "of category '" + category + "'): " + "\n" +
+                "Description: " + description + "\n" +
+                "Place seen: " + place + "\n" +
+                "Time seen: " + time;
     }
 }
