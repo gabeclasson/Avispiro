@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDataBaseHelper";
     private static final int DATABASE_VERSION = 1;
@@ -18,6 +21,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_PLACE = "place";
     public static final String COLUMN_CATEGORY = "category";
+    public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_YEAR = "year";
     public static final String COLUMN_MONTH = "month";
     public static final String COLUMN_DATE = "date";
@@ -38,7 +42,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = " CREATE TABLE " + TABLE_BIRDS + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
+                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_IMAGE + " BLOB, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
         db.execSQL(query);
 
     }
@@ -50,6 +54,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, bird.getDescription());
         values.put(COLUMN_PLACE, bird.getPlace());
         values.put(COLUMN_CATEGORY, bird.getCategory());
+        values.put(COLUMN_IMAGE, bird.getImageAsBlob());
         values.put(COLUMN_YEAR, time.getYear());
         values.put(COLUMN_MONTH, time.getMonth());
         values.put(COLUMN_DATE, time.getDate());
@@ -57,7 +62,22 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MINUTE, time.getMinute());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_BIRDS, null, values);
-        int id = db.rawQuery("SELECT last_insert_rowid();", null).getInt(0); // TEST THIS LATER
+        // USE THIS TO FIX https://stackoverflow.com/questions/27764486/java-sqlite-last-insert-rowid-return-0
+        String query = "SELECT MAX(" + COLUMN_ID +") AS LAST FROM " + TABLE_BIRDS;
+        PreparedStatement pst1 = db.prepareStatement(query);
+        ResultSet rs1 = pst1.executeQuery();
+        String maxId=  rs1.getString("LAST");
+        //Max Table Id Convert to Integer and +1
+        int intMaxId =(Integer.parseInt(maxId))+1;
+        //Convert to String
+        String stringMaxId = Integer.toString(intMaxId);
+        tUazon.setText(stringMaxId);
+        pst1.execute();
+
+        //JOptionPane.showMessageDialog(null, "Adat elmentve");
+
+        pst1.close();
+        rs1.close();
         db.close();
         return id;
     }
@@ -89,6 +109,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 dbstring += c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_PLACE)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_CATEGORY)) + ", ";
+                dbstring += c.getBlob(c.getColumnIndex(COLUMN_IMAGE)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_YEAR)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_MONTH)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_DATE)) + ", ";
@@ -116,6 +137,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
             bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
             bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+            bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
             time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
             time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
             time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));

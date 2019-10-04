@@ -1,10 +1,17 @@
 package com.example.avispiro;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
+
 public class Bird {
 
     private String name, description, place, category;
     private Time time;
     private int id;
+    private Bitmap image;
 
     public Bird(){
         name = "Bird";
@@ -13,6 +20,46 @@ public class Bird {
         category = null;
         time = new Time();
         this.id = -1;
+    }
+
+    public Bird(String name, String description, String place, String category, Bitmap image, Time time){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = category;
+        this.image = image;
+        this.time = time;
+        this.id = -1;
+    }
+
+    public Bird(String name, String description, String place, Bitmap image, Time time){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = null;
+        this.image = image;
+        this.time = time;
+        this.id = -1;
+    }
+
+    public Bird(String name, String description, String place, String category, Bitmap image, Time time, int id){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = category;
+        this.image = image;
+        this.time = time;
+        this.id = id;
+    }
+
+    public Bird(String name, String description, String place, Time time, Bitmap image, int id){
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.category = null;
+        this.image = image;
+        this.time = time;
+        this.id = id;
     }
 
     public Bird(String name, String description, String place, String category, Time time){
@@ -99,10 +146,35 @@ public class Bird {
         this.id = id;
     }
 
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+    // adapted from https://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
+    public byte[] getImageAsBlob(){
+        if (image == null)
+            return null;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    public void setImageAsBlob(byte[] blob){
+        if (blob == null || blob.length == 0) {
+            image = null;
+            return;
+        }
+        image = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+    }
+
     public String toString(){
         return name + " (" + "of category '" + category + "'): " + "\n" +
                 "Description: " + description + "\n" +
                 "Place seen: " + place + "\n" +
-                "Time seen: " + time;
+                "Time seen: " + time + "\n" +
+                "Image: " + image;
     }
 }
