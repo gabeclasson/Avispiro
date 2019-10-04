@@ -13,8 +13,8 @@
         android:layout_height="match_parent"></ListView>
 
     <ImageButton
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/circle"
         android:src="@drawable/ic_plus"
         android:layout_alignParentEnd="true"
