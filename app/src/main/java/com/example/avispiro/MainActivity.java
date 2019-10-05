@@ -1,5 +1,9 @@
 package com.example.avispiro;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,13 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // DEBUG DELETE LATER
-        MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
-        Log.d(TAG, "test");
-        Bird osprey = new Bird("Osprey", "A magestic bird", "OBX, NC", "Birds of prey", new Time(-1, 10, 30, 3, 45));
-        Log.d(TAG, "" + myD.addBird(osprey));
-        Log.d(TAG, myD.getBird(osprey.getId()).toString());
-        Log.d(TAG, myD.databasetoString());
-        Log.d(TAG, "test finish");
+
     }
 
     @Override
@@ -60,6 +58,23 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        // DEBUG
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_edit);
+        Log.d(TAG, icon.toString());
+        MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
+        myD.deleteAllBirds("yes");
+        Log.d(TAG, "test");
+        Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
+        osprey.setId(myD.addBird(osprey));
+        osprey.setImage(icon);
+        Log.d(TAG, "" + osprey.getId());
+        Log.d(TAG, myD.getBird(osprey.getId()) + "");
+        Log.d(TAG, myD.databasetoString());
+        Log.d(TAG, osprey.getImage().toString());
+        Drawable d = new BitmapDrawable(getResources(), osprey.getImage());
+        Log.d(TAG, "test finish");
+        // DEBUG END
+        
         return super.onOptionsItemSelected(item);
     }
 }

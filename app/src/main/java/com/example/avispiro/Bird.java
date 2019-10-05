@@ -153,6 +153,7 @@ public class Bird {
     public void setImage(Bitmap image) {
         this.image = image;
     }
+
     // adapted from https://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
     public byte[] getImageAsBlob(){
         if (image == null)

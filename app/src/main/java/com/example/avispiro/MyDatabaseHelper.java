@@ -47,6 +47,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Adds a bird to the data base.
+     * @param bird The bird to add to the database
+     * @return The id of the bird. Immediately after adding the bird to the database, the bird object's id should be set to this value using bird.setId().
+     */
     public int addBird(Bird bird) {
         ContentValues values = new ContentValues();
         Time time = bird.getTime();
@@ -61,37 +66,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_HOUR, time.getHour());
         values.put(COLUMN_MINUTE, time.getMinute());
         SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_BIRDS, null, values);
+        int id = (int) db.insert(TABLE_BIRDS, null, values);
         // USE THIS TO FIX https://stackoverflow.com/questions/27764486/java-sqlite-last-insert-rowid-return-0
-        String query = "SELECT MAX(" + COLUMN_ID +") AS LAST FROM " + TABLE_BIRDS;
-        PreparedStatement pst1 = db.prepareStatement(query);
-        ResultSet rs1 = pst1.executeQuery();
-        String maxId=  rs1.getString("LAST");
-        //Max Table Id Convert to Integer and +1
-        int intMaxId =(Integer.parseInt(maxId))+1;
-        //Convert to String
-        String stringMaxId = Integer.toString(intMaxId);
-        tUazon.setText(stringMaxId);
-        pst1.execute();
-
-        //JOptionPane.showMessageDialog(null, "Adat elmentve");
-
-        pst1.close();
-        rs1.close();
         db.close();
         return id;
     }
 
-    public void removeBird(int id) {
+    /**
+     * Removes a bird from the database given an id.
+     * @param id The id of the bird to remove. If this id is invalid, no bird will be removed.
+     * @return The bird that was removed from the database. If a bird by that id could not be found, the method will return null.
+     */
+    public Bird removeBird(int id) {
         SQLiteDatabase db = getWritableDatabase();
+        Bird bird = getBird(id);
         String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
         db.execSQL(query);
-
+        db.close();
+        return bird;
     }
 
-    // This method creates a String representation of all the database elements
-    // this is simply for quick viewing of our database contents
-
+    /**
+     * Returns a rudimentary representation of the database as a string
+     * @return
+     */
     public String databasetoString() {
         String dbstring = "";
         SQLiteDatabase db = getWritableDatabase();
@@ -125,6 +123,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Fetches a bird from the database given an id.
+     * @param id The id of the bird fetch.
+     * @return The bird in the database with the given id. If the bird cannot be found, the return is null.
+     */
     public Bird getBird(int id){
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID + " = '" + id + "' ; ";
@@ -148,6 +151,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return bird;
         }
         return null;
+    }
+
+    public void deleteAllBirds(String areYouSure){
+        if (areYouSure.equalsIgnoreCase("yes"));{
+            SQLiteDatabase db = getWritableDatabase();
+            String query = "DELETE FROM " + TABLE_BIRDS + " WHERE 1;";
+            db.execSQL(query);
+            db.close();
+        }
     }
 }
 
