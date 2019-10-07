@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // DEBUG
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_edit);
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_plus);
+        Bitmap icon = Bird.drawableToBitmap(drawable);
         Log.d(TAG, icon.toString());
         MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
         myD.deleteAllBirds("yes");
@@ -71,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, myD.getBird(osprey.getId()) + "");
         Log.d(TAG, myD.databasetoString());
         Log.d(TAG, osprey.getImage().toString());
-        Drawable d = new BitmapDrawable(getResources(), osprey.getImage());
+        Drawable d = Bird.bitmapToDrawable(this, myD.getBird(osprey.getId()).getImage());
+        d.toString();
         Log.d(TAG, "test finish");
         // DEBUG END
-        
+
         return super.onOptionsItemSelected(item);
     }
 }

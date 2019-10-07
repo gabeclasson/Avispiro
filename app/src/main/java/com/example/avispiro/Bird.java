@@ -1,7 +1,11 @@
 package com.example.avispiro;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
@@ -12,6 +16,24 @@ public class Bird {
     private Time time;
     private int id;
     private Bitmap image;
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    public static Drawable bitmapToDrawable (Context context, Bitmap bitmap){
+        return new BitmapDrawable(context.getResources(), bitmap);
+    }
 
     public Bird(){
         name = "Bird";
