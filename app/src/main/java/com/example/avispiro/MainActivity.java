@@ -67,14 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "test");
         Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
         osprey.setId(myD.addBird(osprey));
-        osprey.setImage(icon);
-        Log.d(TAG, "" + osprey.getId());
-        Log.d(TAG, myD.getBird(osprey.getId()) + "");
         Log.d(TAG, myD.databasetoString());
-        Log.d(TAG, osprey.getImage().toString());
-        Drawable d = Bird.bitmapToDrawable(this, myD.getBird(osprey.getId()).getImage());
-        d.toString();
-        Log.d(TAG, "test finish");
         // DEBUG END
 
         return super.onOptionsItemSelected(item);
