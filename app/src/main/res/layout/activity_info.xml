@@ -19,6 +19,7 @@
         android:layout_marginTop="40dp"/>
 
     <ImageButton
+        android:id="@+id/buttonEdit"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:layout_constraintLeft_toRightOf="@+id/textName"
@@ -28,5 +29,65 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_edit"
         android:tint="#000000"/>
+
+    <ImageView
+        android:id="@+id/imageBird"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@+id/textName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/general_margin"/>
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageBird"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/general_margin"
+        android:scrollbars="vertical"
+        android:text="arb"/>
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textDescription"
+        app:layout_constraintLeft_toLeftOf="@+id/textDescription"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="Time:"
+        />
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/timeLabel"
+        app:layout_constraintTop_toTopOf="@+id/timeLabel"
+        android:text="lasjdhgoweugh"
+        android:layout_marginLeft="@dimen/general_margin"/>
+
+    <TextView
+        android:id="@+id/locationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/timeLabel"
+        app:layout_constraintLeft_toLeftOf="@+id/timeLabel"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="Location:" />
+
+    <TextView
+        android:id="@+id/textLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/locationLabel"
+        app:layout_constraintLeft_toRightOf="@+id/locationLabel"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:text="asldiughwoeguh" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

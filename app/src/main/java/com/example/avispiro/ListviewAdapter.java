@@ -1,6 +1,8 @@
 package com.example.avispiro;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -10,14 +12,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
 public class ListviewAdapter extends BaseAdapter {
 
     private String[] nameArray;
     private String[] timeArray;
-    private int[] imageArray;
+    private Drawable[] imageArray;
     private LayoutInflater inflater;
 
-    public ListviewAdapter(Context applicationContext, String[] nameArray, String[] timeArray, int[] imageArray) {
+    public ListviewAdapter(Context applicationContext, String[] nameArray, String[] timeArray, Drawable[] imageArray) {
         this.nameArray = nameArray;
         this.timeArray = timeArray;
         this.imageArray = imageArray;
@@ -45,7 +50,7 @@ public class ListviewAdapter extends BaseAdapter {
         TextView timeText = (TextView) view.findViewById(R.id.timeText);
         nameText.setText(nameArray[i]);
         timeText.setText(timeArray[i]);
-        image.setImageResource(imageArray[i]);
+        image.setImageDrawable(imageArray[i]);
         return view;
     }
 }

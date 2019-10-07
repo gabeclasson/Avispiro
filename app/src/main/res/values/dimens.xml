@@ -4,4 +4,5 @@
     <dimen name="horizontal_spacing">50dp</dimen>
     <dimen name="close_spacing">10dp</dimen>
     <dimen name="editTextWidth">250dp</dimen>
+    <dimen name="general_margin">20dp</dimen>
 </resources>

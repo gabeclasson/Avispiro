@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
 
@@ -32,7 +35,9 @@ public class Bird {
     }
 
     public static Drawable bitmapToDrawable (Context context, Bitmap bitmap){
-        return new BitmapDrawable(context.getResources(), bitmap);
+        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+        drawable.setCircular(true);
+        return drawable;
     }
 
     public Bird(){
