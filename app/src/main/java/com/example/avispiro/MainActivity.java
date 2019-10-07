@@ -61,19 +61,16 @@ public class MainActivity extends AppCompatActivity {
         // DEBUG
         Drawable drawable = getResources().getDrawable(R.drawable.ic_plus);
         Bitmap icon = Bird.drawableToBitmap(drawable);
-        Log.d(TAG, icon.toString());
         MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
         myD.deleteAllBirds("yes");
-        Log.d(TAG, "test");
         Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
         osprey.setId(myD.addBird(osprey));
         osprey.setImage(icon);
-        Log.d(TAG, "" + osprey.getId());
-        Log.d(TAG, myD.getBird(osprey.getId()) + "");
-        Log.d(TAG, myD.databasetoString());
-        Log.d(TAG, osprey.getImage().toString());
         Drawable d = Bird.bitmapToDrawable(this, myD.getBird(osprey.getId()).getImage());
         d.toString();
+        osprey.setName("Osprey 2");
+        myD.updateBird(osprey);
+        Log.d(TAG, myD.databasetoString());
         Log.d(TAG, "test finish");
         // DEBUG END
 
