@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
         osprey.setId(myD.addBird(osprey));
         Log.d(TAG, myD.databasetoString());
+        Intent intent = new Intent(MainActivity.this, AddBirdActivity.class);
+        startActivity(intent);
         // DEBUG END
 
         return super.onOptionsItemSelected(item);
