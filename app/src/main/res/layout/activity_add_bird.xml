@@ -46,7 +46,6 @@
         app:layout_constraintTop_toTopOf="@+id/addBirdDescriptionEdit" />
 
     <EditText
-        android:theme="@style/EditTextViewTheme"
         android:id="@+id/addBirdDescriptionEdit"
         android:layout_width="@dimen/editTextWidth"
         android:layout_height="wrap_content"
@@ -54,7 +53,9 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:minLines="1"
         android:singleLine="false"
+        android:theme="@style/EditTextViewTheme"
         app:layout_constraintEnd_toEndOf="@+id/addBirdNameEdit"
         app:layout_constraintStart_toStartOf="@+id/addBirdNameEdit"
         app:layout_constraintTop_toBottomOf="@+id/addBirdNameEdit" />
@@ -71,7 +72,6 @@
         app:layout_constraintTop_toTopOf="@+id/addBirdPlaceEdit" />
 
     <EditText
-        android:theme="@style/EditTextViewTheme"
         android:id="@+id/addBirdPlaceEdit"
         android:layout_width="@dimen/editTextWidth"
         android:layout_height="wrap_content"
@@ -79,10 +79,11 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:singleLine="false"
-        app:layout_constraintEnd_toEndOf="@+id/addBirdDescriptionEdit"
-        app:layout_constraintStart_toStartOf="@+id/addBirdDescriptionEdit"
-        app:layout_constraintTop_toBottomOf="@+id/addBirdDescriptionEdit" />
+        android:singleLine="true"
+        android:theme="@style/EditTextViewTheme"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdTimeEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdTimeEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdTimeEdit" />
 
     <TextView
         android:id="@+id/addBirdCategoryText"
@@ -96,7 +97,6 @@
         app:layout_constraintTop_toTopOf="@+id/addBirdCategoryEdit" />
 
     <EditText
-        android:theme="@style/EditTextViewTheme"
         android:id="@+id/addBirdCategoryEdit"
         android:layout_width="@dimen/editTextWidth"
         android:layout_height="wrap_content"
@@ -104,10 +104,40 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:singleLine="false"
+        android:singleLine="true"
+        android:theme="@style/EditTextViewTheme"
         app:layout_constraintEnd_toEndOf="@+id/addBirdPlaceEdit"
         app:layout_constraintStart_toStartOf="@+id/addBirdPlaceEdit"
         app:layout_constraintTop_toBottomOf="@+id/addBirdPlaceEdit" />
+
+    <TextView
+        android:id="@+id/addBirdTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/close_spacing"
+        android:text="@string/add_bird_time_text"
+        android:theme="@style/HintTextViewTheme"
+        app:layout_constraintBottom_toBottomOf="@+id/addBirdTimeEdit"
+        app:layout_constraintEnd_toStartOf="@+id/addBirdTimeEdit"
+        app:layout_constraintTop_toTopOf="@+id/addBirdTimeEdit" />
+
+    <EditText
+        android:id="@+id/addBirdTimeEdit"
+        android:layout_width="@dimen/editTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_spacing"
+        android:cursorVisible="false"
+        android:editable="false"
+        android:ems="10"
+        android:focusable="false"
+        android:gravity="start|top"
+        android:inputType="none"
+        android:onClick="showDatePickerDialog"
+        android:singleLine="true"
+        android:theme="@style/EditTextViewTheme"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdDescriptionEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdDescriptionEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdDescriptionEdit" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
