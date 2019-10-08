@@ -26,4 +26,10 @@
         <item name="android:textSize">@dimen/largerText</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
+
+    <style name="EditTextDialogueTheme">
+        <item name="android:textSize">@dimen/generalText</item>
+        <item name="android:layout_width">@dimen/editTextWidth</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

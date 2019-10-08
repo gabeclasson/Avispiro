@@ -1,5 +1,6 @@
 package com.example.avispiro;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -71,5 +72,10 @@ public class MainActivity extends AppCompatActivity {
         // DEBUG END
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View v){
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
     }
 }

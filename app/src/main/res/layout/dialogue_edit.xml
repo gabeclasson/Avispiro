@@ -4,6 +4,7 @@
     android:layout_height="400dp">
 
     <TextView
+        android:id="@+id/editLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Entry"
@@ -11,5 +12,23 @@
         android:textColor="#000000"
         android:layout_marginTop="@dimen/general_margin"
         android:layout_marginLeft="@dimen/general_margin" />
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_alignTop="@+id/editLabel"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:layout_marginTop="50dp"/>
+    
+    <EditText
+        android:id="@+id/editName"
+        android:theme="@style/EditTextDialogueTheme"
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/editTextWidth"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:layout_alignTop="@+id/nameLabel"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>
