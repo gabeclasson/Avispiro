@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // DEBUG DELETE LATER
 
     }
 
@@ -58,20 +57,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
-        // DEBUG
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_plus);
-        Bitmap icon = Bird.drawableToBitmap(drawable);
-        Log.d(TAG, icon.toString());
-        MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
-        myD.deleteAllBirds("yes");
-        Log.d(TAG, "test");
-        Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
-        osprey.setId(myD.addBird(osprey));
-        Log.d(TAG, myD.databasetoString());
-        Intent intent = new Intent(MainActivity.this, AddBirdActivity.class);
-        startActivity(intent);
-        // DEBUG END
 
         return super.onOptionsItemSelected(item);
     }

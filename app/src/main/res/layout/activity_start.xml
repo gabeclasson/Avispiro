@@ -19,5 +19,7 @@
         android:src="@drawable/ic_plus"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:clickable="true"
+        android:onClick="addBirdOnClick"/>
 </RelativeLayout>

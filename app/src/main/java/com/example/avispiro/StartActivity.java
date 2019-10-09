@@ -5,10 +5,12 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -28,5 +30,10 @@ public class StartActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), nameList, dateList, imageList);
         listView.setAdapter(adapter);
+    }
+
+    public void addBirdOnClick(View v){
+        Intent intent = new Intent(StartActivity.this, AddBirdActivity.class);
+        startActivity(intent);
     }
 }
