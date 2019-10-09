@@ -127,7 +127,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:cursorVisible="false"
-        android:editable="false"
         android:ems="10"
         android:focusable="false"
         android:gravity="start|top"
