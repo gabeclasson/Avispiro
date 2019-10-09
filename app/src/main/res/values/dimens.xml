@@ -5,4 +5,5 @@
     <dimen name="close_spacing">10dp</dimen>
     <dimen name="editTextWidth">250dp</dimen>
     <dimen name="general_margin">20dp</dimen>
+    <dimen name="small_padding">10dp</dimen>
 </resources>
