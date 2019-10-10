@@ -20,6 +20,7 @@ public class Time {
         this.date = date;
         this.hour = hour;
         this.minute = minute;
+
     }
 
     /**
@@ -101,13 +102,13 @@ public class Time {
         out += "-" + formatInt(month,2);
         if (date < 0)
             return out;
-        out += "-" + date;
+        out += "-" + formatInt(date, 2);
         if (hour < 0)
             return out;
-        out += " " + hour;
+        out += " " + formatInt(hour,2);
         if (minute < 0)
             return out + ":00";
-        out += ":" + minute;
+        out += ":" + formatInt(minute,2);
         return out;
     }
 
