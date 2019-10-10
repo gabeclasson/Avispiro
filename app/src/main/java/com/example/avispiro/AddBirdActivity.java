@@ -6,19 +6,30 @@ import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 public class AddBirdActivity extends AppCompatActivity {
     public static final String TAG = "AddBirdActivity";
+    public static final int RESULT_RETURN_IMG = 7;
+    private static AddBirdActivity currentActivity = null;
 
-    private static Time tempTime = new Time();
+    private Bitmap image;
     private Time time;
 
     /**
@@ -39,10 +50,12 @@ public class AddBirdActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int date){
-            tempTime = new Time();
+            Time tempTime = currentActivity.getTime();
             tempTime.setYear(year);
             tempTime.setMonth(month);
             tempTime.setDate(date);
+            DialogFragment newFragment = new TimePickerFragment();
+            newFragment.show(currentActivity.getSupportFragmentManager(), "timePicker");
         }
     }
 
@@ -65,8 +78,15 @@ public class AddBirdActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            Time tempTime = currentActivity.getTime();
             tempTime.setHour(hourOfDay);
             tempTime.setMinute(minute);
+        }
+
+        public void onDestroy(){
+            super.onDestroy();
+            currentActivity.setTimeText(currentActivity.getTime());
+            Log.d(TAG, currentActivity.getTime().toString());
         }
     }
 
@@ -75,23 +95,56 @@ public class AddBirdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
         time = new Time();
+        currentActivity = this;
     }
 
     /**
-     *
-     * @param v
+     * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
+     * @param reqCode
+     * @param resultCode
+     * @param data
      */
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        if (reqCode == RESULT_RETURN_IMG) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    image = BitmapFactory.decodeStream(imageStream);
+                    setImageText(image.toString());
+                } catch (Exception e) {
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
-    public void showDatePickerDialog(View v) {
-        final View view = v;
-        Log.d(TAG, "p");
+    public void pickTime(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
-        showTimePickerDialog(v);
+    }
+
+    public void setTimeText(Time time){
+        EditText birdTimeEdit = findViewById(R.id.addBirdTimeEdit);
+        birdTimeEdit.setText(time.toString());
+    }
+
+    public void setImageText(String name){
+        EditText birdImageEdit = findViewById(R.id.addBirdImageEdit);
+        birdImageEdit.setText(name);
+    }
+
+    public void pickImage(View v){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, RESULT_RETURN_IMG);
+
     }
 
     public Time getTime() {

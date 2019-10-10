@@ -56,9 +56,9 @@
         android:minLines="1"
         android:singleLine="false"
         android:theme="@style/EditTextViewTheme"
-        app:layout_constraintEnd_toEndOf="@+id/addBirdNameEdit"
-        app:layout_constraintStart_toStartOf="@+id/addBirdNameEdit"
-        app:layout_constraintTop_toBottomOf="@+id/addBirdNameEdit" />
+        app:layout_constraintEnd_toEndOf="@+id/addBirdImageEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdImageEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdImageEdit" />
 
     <TextView
         android:id="@+id/addBirdPlaceText"
@@ -131,12 +131,40 @@
         android:focusable="false"
         android:gravity="start|top"
         android:inputType="none"
-        android:onClick="showDatePickerDialog"
+        android:onClick="pickTime"
         android:singleLine="true"
         android:theme="@style/EditTextViewTheme"
         app:layout_constraintEnd_toEndOf="@+id/addBirdDescriptionEdit"
         app:layout_constraintStart_toStartOf="@+id/addBirdDescriptionEdit"
         app:layout_constraintTop_toBottomOf="@+id/addBirdDescriptionEdit" />
+
+    <TextView
+        android:id="@+id/addBirdImageText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/close_spacing"
+        android:text="@string/add_bird_image_text"
+        android:theme="@style/HintTextViewTheme"
+        app:layout_constraintBottom_toBottomOf="@+id/addBirdImageEdit"
+        app:layout_constraintEnd_toStartOf="@+id/addBirdImageEdit"
+        app:layout_constraintTop_toTopOf="@+id/addBirdImageEdit" />
+
+    <EditText
+        android:id="@+id/addBirdImageEdit"
+        android:layout_width="@dimen/editTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_spacing"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:gravity="start|top"
+        android:inputType="none"
+        android:onClick="pickImage"
+        android:singleLine="true"
+        android:theme="@style/EditTextViewTheme"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdNameEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdNameEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdNameEdit" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
