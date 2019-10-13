@@ -3,4 +3,10 @@
     <string name="action_settings">Settings</string>
     <string name="action_categories">Categories</string>
     <string name="action_my_birds">My Birds</string>
+    <string name="add_bird_name_text">Name</string>
+    <string name="add_bird_description_text">Description</string>
+    <string name="add_bird_place_text">Place seen</string>
+    <string name="add_bird_category_text">Category</string>
+    <string name="add_bird_time_text">Time</string>
+    <string name="add_bird_image_text">Image</string>
 </resources>

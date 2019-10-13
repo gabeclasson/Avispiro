@@ -29,5 +29,4 @@
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <include layout="@layout/content_main" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

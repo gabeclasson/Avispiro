@@ -1,5 +1,6 @@
 package com.example.avispiro;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // DEBUG DELETE LATER
 
     }
 
@@ -58,22 +58,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        // DEBUG
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_plus);
-        Bitmap icon = Bird.drawableToBitmap(drawable);
-        MyDatabaseHelper myD = new MyDatabaseHelper(this, null, null, 1);
-        myD.deleteAllBirds("yes");
-        Bird osprey = new Bird("Osprey", "A majestic bird", "OBX, NC", "Birds of prey", icon, new Time(2019, 10, 30, 3, 45));
-        osprey.setId(myD.addBird(osprey));
-        osprey.setImage(icon);
-        Drawable d = Bird.bitmapToDrawable(this, myD.getBird(osprey.getId()).getImage());
-        d.toString();
-        osprey.setName("Osprey 2");
-        myD.updateBird(osprey);
-        Log.d(TAG, myD.databasetoString());
-        Log.d(TAG, "test finish");
-        // DEBUG END
-
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View v){
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
     }
 }

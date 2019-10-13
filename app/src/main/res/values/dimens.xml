@@ -1,3 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="vertical_spacing">30dp</dimen>
+    <dimen name="horizontal_spacing">40dp</dimen>
+    <dimen name="close_spacing">10dp</dimen>
+    <dimen name="editTextWidth">250dp</dimen>
+    <dimen name="general_margin">20dp</dimen>
+    <dimen name="small_padding">10dp</dimen>
 </resources>
