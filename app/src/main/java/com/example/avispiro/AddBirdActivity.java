@@ -1,6 +1,7 @@
 package com.example.avispiro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
@@ -11,26 +12,36 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddBirdActivity extends AppCompatActivity {
     public static final String TAG = "AddBirdActivity";
     public static final int RESULT_RETURN_IMG = 7;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
     private static AddBirdActivity currentActivity = null;
 
     private Bitmap image;
     private Time time;
+    String currentPhotoPath;
 
     /**
      * Adapted from https://developer.android.com/guide/topics/ui/controls/pickers
@@ -96,10 +107,12 @@ public class AddBirdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_bird);
         time = new Time();
         currentActivity = this;
+        currentPhotoPath = "";
     }
 
     /**
      * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
+     * and https://developer.android.com/training/camera/photobasics
      * @param reqCode
      * @param resultCode
      * @param data
@@ -107,20 +120,33 @@ public class AddBirdActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-
         if (reqCode == RESULT_RETURN_IMG) {
             if (resultCode == RESULT_OK) {
                 try {
                     final Uri imageUri = data.getData();
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     image = BitmapFactory.decodeStream(imageStream);
-                    setImageText(image.toString());
+                    setImageText("Selected");
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
 
             } else {
                 Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
+            }
+        }
+        if (reqCode == REQUEST_TAKE_PHOTO){
+            if (resultCode == RESULT_OK){
+                try {
+                    image = BitmapFactory.decodeFile(currentPhotoPath);
+                    setImageText("From Camera");
+                }
+                catch (Exception e){
+                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -144,6 +170,57 @@ public class AddBirdActivity extends AppCompatActivity {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, RESULT_RETURN_IMG);
+    }
+
+
+    /**
+     * https://developer.android.com/training/camera/photobasics
+     * @return
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    /**
+     * Adapted from https://developer.android.com/training/camera/photobasics
+     * @param v
+     */
+    public void takeImage(View v) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    public void addBird(View v){
 
     }
 

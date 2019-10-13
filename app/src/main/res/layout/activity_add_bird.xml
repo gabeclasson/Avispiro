@@ -50,13 +50,13 @@
         android:layout_width="@dimen/editTextWidth"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_spacing"
+        android:layout_marginStart="0dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:minLines="1"
         android:singleLine="false"
         android:theme="@style/EditTextViewTheme"
-        app:layout_constraintEnd_toEndOf="@+id/addBirdImageEdit"
         app:layout_constraintStart_toStartOf="@+id/addBirdImageEdit"
         app:layout_constraintTop_toBottomOf="@+id/addBirdImageEdit" />
 
@@ -154,18 +154,51 @@
         android:layout_width="@dimen/editTextWidth"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_spacing"
+        android:clickable="false"
         android:cursorVisible="false"
         android:ems="10"
         android:focusable="false"
         android:gravity="start|top"
         android:inputType="none"
-        android:onClick="pickImage"
         android:singleLine="true"
         android:theme="@style/EditTextViewTheme"
-        app:layout_constraintEnd_toEndOf="@+id/addBirdNameEdit"
         app:layout_constraintStart_toStartOf="@+id/addBirdNameEdit"
         app:layout_constraintTop_toBottomOf="@+id/addBirdNameEdit" />
 
+    <ImageButton
+        android:id="@+id/addBirdImageButtonPhoto"
+        android:layout_width="@dimen/image_icon_action_width"
+        android:layout_height="@dimen/image_icon_action_width"
+        android:layout_marginEnd="@dimen/close_spacing"
+        android:src="@drawable/ic_photo"
+        android:theme="@style/IconActionButtonTheme"
+        android:onClick="takeImage"
+        app:layout_constraintBottom_toBottomOf="@+id/addBirdImageEdit"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdImageEdit"
+        app:layout_constraintTop_toTopOf="@+id/addBirdImageEdit" />
+
+    <ImageButton
+        android:id="@+id/addBirdImageButtonImage"
+        android:layout_width="@dimen/image_icon_action_width"
+        android:layout_height="@dimen/image_icon_action_width"
+        android:layout_marginEnd="@dimen/close_spacing"
+        android:src="@drawable/ic_image"
+        android:theme="@style/IconActionButtonTheme"
+        android:onClick="pickImage"
+        app:layout_constraintBottom_toBottomOf="@+id/addBirdImageEdit"
+        app:layout_constraintEnd_toStartOf="@+id/addBirdImageButtonPhoto"
+        app:layout_constraintTop_toTopOf="@+id/addBirdImageEdit"/>
+
+    <Button
+        android:layout_width="@dimen/editTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_spacing"
+        android:text="@string/add_bird_button_text"
+        android:background="@drawable/button_shape"
+        android:onClick="addBird"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdCategoryEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdCategoryEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdCategoryEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

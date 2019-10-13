@@ -9,4 +9,5 @@
     <string name="add_bird_category_text">Category</string>
     <string name="add_bird_time_text">Time</string>
     <string name="add_bird_image_text">Image</string>
+    <string name="add_bird_button_text">Add Bird</string>
 </resources>

@@ -32,8 +32,8 @@ public class StartActivity extends AppCompatActivity {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // testing listviewAdapter
+        /*
+        This was commented out because it was causing errors.
         String[] nameList = {"hi", "bye"};
         String[] dateList = {"01-01-01", "02-02-02"};
         Drawable[] imageList = {ResourcesCompat.getDrawable(res, R.drawable.winter_solstice,null),
@@ -53,6 +53,7 @@ public class StartActivity extends AppCompatActivity {
         };
 
         listView.setOnItemClickListener(birdClickListener);
+         */
     }
 
     @Override
