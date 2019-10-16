@@ -41,6 +41,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     private Bitmap image;
     private Time time;
+    private MyDatabaseHelper databaseHelper;
     String currentPhotoPath;
 
     /**
@@ -108,6 +109,13 @@ public class AddBirdActivity extends AppCompatActivity {
         time = new Time();
         currentActivity = this;
         currentPhotoPath = "";
+        databaseHelper = new MyDatabaseHelper(this, null, null, 1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
     }
 
     /**
@@ -221,7 +229,13 @@ public class AddBirdActivity extends AppCompatActivity {
     }
 
     public void addBird(View v){
-
+        Bird bird = new Bird();
+        EditText addBirdNameEdit = findViewById(R.id.addBirdNameEdit);
+        EditText addBirdDescriptionEdit = findViewById(R.id.addBirdDescriptionEdit);
+        EditText addBirdPlaceEdit = findViewById(R.id.addBirdPlaceEdit);
+        EditText addBird.
+        bird.setName();
+        databaseHelper.
     }
 
     public Time getTime() {
