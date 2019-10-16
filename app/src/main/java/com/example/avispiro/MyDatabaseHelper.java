@@ -153,6 +153,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public Bird updateBird(Bird bird){
+        if (bird.getId() < 0)
+            return null;
+        Bird returned = getBird(bird.getId());
+        if (returned == null)
+            return null;
+        ContentValues values = new ContentValues();
+        Time time = bird.getTime();
+        values.put(COLUMN_NAME, bird.getName());
+        values.put(COLUMN_DESCRIPTION, bird.getDescription());
+        values.put(COLUMN_PLACE, bird.getPlace());
+        values.put(COLUMN_CATEGORY, bird.getCategory());
+        values.put(COLUMN_IMAGE, bird.getImageAsBlob());
+        values.put(COLUMN_YEAR, time.getYear());
+        values.put(COLUMN_MONTH, time.getMonth());
+        values.put(COLUMN_DATE, time.getDate());
+        values.put(COLUMN_HOUR, time.getHour());
+        values.put(COLUMN_MINUTE, time.getMinute());
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(TABLE_BIRDS, values,COLUMN_ID + " = '" + bird.getId() + "';", null);
+        db.close();
+        return returned;
+    }
+
     public void deleteAllBirds(String areYouSure){
         if (areYouSure.equalsIgnoreCase("yes"));{
             SQLiteDatabase db = getWritableDatabase();
