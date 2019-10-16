@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -33,6 +34,11 @@ public class InfoActivity extends AppCompatActivity {
         dialog.setTitle("Edit Profile");
 
         // configure views in dialog like usual
+        EditText nameEdit = (EditText) findViewById(R.id.editName);
+        EditText descEdit = (EditText) findViewById(R.id.editDesc);
+        EditText timeEdit = (EditText) findViewById(R.id.editTime);
+        EditText locationEdit = (EditText) findViewById(R.id.editLocation);
+
 
         //show the dialog
         dialog.show();
