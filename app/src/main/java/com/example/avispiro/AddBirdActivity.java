@@ -106,10 +106,12 @@ public class AddBirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
-        time = new Time();
+        image = null;
+        time = null;
         currentActivity = this;
         currentPhotoPath = "";
         databaseHelper = new MyDatabaseHelper(this, null, null, 1);
+
     }
 
     @Override
@@ -160,6 +162,7 @@ public class AddBirdActivity extends AppCompatActivity {
     }
 
     public void pickTime(View v) {
+        time = new Time();
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
@@ -233,9 +236,24 @@ public class AddBirdActivity extends AppCompatActivity {
         EditText addBirdNameEdit = findViewById(R.id.addBirdNameEdit);
         EditText addBirdDescriptionEdit = findViewById(R.id.addBirdDescriptionEdit);
         EditText addBirdPlaceEdit = findViewById(R.id.addBirdPlaceEdit);
-        EditText addBird
-        bird.setName();
-        databaseHelper.
+        EditText addBirdCategoryEdit = findViewById(R.id.addBirdCategoryEdit);
+        String birdName = addBirdNameEdit.getText().toString().trim();
+        String birdDescription = addBirdDescriptionEdit.getText().toString().trim();
+        String birdPlace = addBirdPlaceEdit.getText().toString().trim();
+        String birdCategory = addBirdPlaceEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
+        Bitmap birdImage = image;
+        Time birdTime = time;
+        if (birdName.isEmpty() || birdDescription.isEmpty() || birdPlace.isEmpty() || birdCategory.isEmpty() || birdImage == null || birdTime  == null){
+            Toast.makeText(this, "You didn't fill in all fields correctly.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        bird.setName(birdName);
+        bird.setDescription(birdDescription);
+        bird.setPlace(birdPlace);
+        bird.setCategory(birdCategory);
+        bird.setImage(birdImage);
+        bird.setTime(birdTime);
+        bird.setId(databaseHelper.addBird(bird));
     }
 
     public Time getTime() {
