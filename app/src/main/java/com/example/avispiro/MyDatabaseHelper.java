@@ -161,21 +161,24 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Bird[] out = new Bird[c.getCount()];
         int index = 0;
         while(!c.isAfterLast()) {
-            Bird bird = new Bird();
-            Time time = new Time();
-            bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
-            bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
-            bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
-            bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
-            bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
-            time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
-            time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
-            time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
-            time.setHour(c.getInt(c.getColumnIndex(COLUMN_HOUR)));
-            time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
-            bird.setTime(time);
-            bird.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-            out[index++] = bird;
+            if(c.getString(c.getColumnIndex(COLUMN_NAME)) != null ) {
+                Bird bird = new Bird();
+                Time time = new Time();
+                bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+                bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
+                bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
+                bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+                bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
+                time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
+                time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
+                time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
+                time.setHour(c.getInt(c.getColumnIndex(COLUMN_HOUR)));
+                time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
+                bird.setTime(time);
+                bird.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+                out[index++] = bird;
+            }
+            c.moveToNext();
         }
         return out;
     }

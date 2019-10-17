@@ -98,7 +98,6 @@ public class AddBirdActivity extends AppCompatActivity {
         public void onDestroy(){
             super.onDestroy();
             currentActivity.setTimeText(currentActivity.getTime());
-            Log.d(TAG, currentActivity.getTime().toString());
         }
     }
 
@@ -111,7 +110,6 @@ public class AddBirdActivity extends AppCompatActivity {
         currentActivity = this;
         currentPhotoPath = "";
         databaseHelper = new MyDatabaseHelper(this, null, null, 1);
-
     }
 
     @Override
@@ -254,6 +252,9 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setImage(birdImage);
         bird.setTime(birdTime);
         bird.setId(databaseHelper.addBird(bird));
+        Intent intent = new Intent(this, StartActivity.class);
+        Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
+        startActivity(intent);
     }
 
     public Time getTime() {
