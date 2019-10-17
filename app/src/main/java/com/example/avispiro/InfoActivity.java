@@ -3,6 +3,7 @@ package com.example.avispiro;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -11,8 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class InfoActivity extends AppCompatActivity {
-    public static final String BIRD_SELECTED = "bird";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +22,23 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         TextView descText = (TextView) findViewById(R.id.textDescription);
+        TextView nameText = (TextView) findViewById(R.id.textName);
+        TextView locationText = (TextView) findViewById(R.id.textLocation);
+        TextView timeText = (TextView) findViewById(R.id.textTime);
+
         descText.setMovementMethod(new ScrollingMovementMethod());
 
-        //Testing purposes for dialogue boxes
-        ImageButton testButton = (ImageButton) findViewById(R.id.buttonEdit);
+        Intent intent = getIntent();
+        Bird birdSelected = (Bird) intent.getSerializableExtra("wowKey");
+
+        descText.setText(birdSelected.getDescription());
+        nameText.setText(birdSelected.getName());
+        locationText.setText(birdSelected.getPlace());
+        timeText.setText(birdSelected.getTime().toString());
+
+        ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
+
+
     }
 
     public void onClick(View v){

@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_edit"
-        android:tint="#000000"/>
+        android:tint="#000000" />
 
     <ImageView
         android:id="@+id/imageBird"
