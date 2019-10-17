@@ -233,7 +233,7 @@ public class AddBirdActivity extends AppCompatActivity {
         EditText addBirdNameEdit = findViewById(R.id.addBirdNameEdit);
         EditText addBirdDescriptionEdit = findViewById(R.id.addBirdDescriptionEdit);
         EditText addBirdPlaceEdit = findViewById(R.id.addBirdPlaceEdit);
-        EditText addBird.
+        EditText addBird
         bird.setName();
         databaseHelper.
     }

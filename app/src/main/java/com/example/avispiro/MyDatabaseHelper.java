@@ -153,6 +153,33 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public Bird[] getAllBirds(){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE 1";
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        Bird[] out = new Bird[c.getCount()];
+        int index = 0;
+        while(!c.isAfterLast()) {
+            Bird bird = new Bird();
+            Time time = new Time();
+            bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+            bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
+            bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
+            bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+            bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
+            time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
+            time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
+            time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
+            time.setHour(c.getInt(c.getColumnIndex(COLUMN_HOUR)));
+            time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
+            bird.setTime(time);
+            bird.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            out[index++] = bird;
+        }
+        return out;
+    }
+
     public Bird updateBird(Bird bird){
         if (bird.getId() < 0)
             return null;
