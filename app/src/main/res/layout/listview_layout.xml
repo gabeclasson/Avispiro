@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
+
+    <!--
+        Source: https://www.viralandroid.com/2016/02/android-listview-with-image-and-text.html
+        Purpose: Customizing Listview UI
+    -->
     <ImageView
         android:id="@+id/imageBird"
         android:layout_width="80dp"
@@ -22,7 +27,7 @@
             android:id="@+id/nameText"
             android:text="hi"
             android:textSize="@dimen/generalText"
-            android:textColor="#6ACCFC"/>
+            android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:layout_width="wrap_content"

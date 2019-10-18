@@ -11,9 +11,10 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.sql.Blob;
 
-public class Bird {
+public class Bird implements Serializable {
 
     private String name, description, place, category;
     private Time time;
@@ -35,9 +36,7 @@ public class Bird {
     }
 
     public static Drawable bitmapToDrawable (Context context, Bitmap bitmap){
-        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
-        drawable.setCircular(true);
-        return drawable;
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     public Bird(){

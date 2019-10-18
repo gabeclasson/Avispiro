@@ -19,16 +19,20 @@ import java.util.ArrayList;
 
 public class ListviewAdapter extends BaseAdapter {
 
-    private ArrayList<Bird> birdArray;
+    /**
+     *  Source: https://abhiandroid.com/ui/listview
+     *  Purpose: Making custom Listview adapter
+     */
+    private Bird[] birdArray;
     private LayoutInflater inflater;
 
-    public ListviewAdapter(Context applicationContext, ArrayList<Bird> birdArray) {
+    public ListviewAdapter(Context applicationContext, Bird[] birdArray) {
         this.birdArray = birdArray;
         inflater = LayoutInflater.from(applicationContext);
     }
 
     public int getCount(){
-        return birdArray.size();
+        return birdArray.length;
     }
 
     @Override
@@ -46,10 +50,16 @@ public class ListviewAdapter extends BaseAdapter {
         ImageView image = (ImageView) view.findViewById(R.id.imageBird);
         TextView nameText = (TextView) view.findViewById(R.id.nameText);
         TextView timeText = (TextView) view.findViewById(R.id.timeText);
-        nameText.setText(birdArray.get(i).getName());
-        timeText.setText(birdArray.get(i).getTime().toString());
+        nameText.setText(birdArray[i].getName());
+        timeText.setText(birdArray[i].getTime().toString());
 
-        //image.setImageDrawable();
+        /**
+         *  Source: https://stackoverflow.com/questions/26850780/bitmap-circular-crop-in-android
+         *  Purpose: Converting bitmap to drawable and rounding its corners
+         */
+        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(view.getResources(), birdArray[i].getImage());
+
+        image.setImageDrawable(imageDrawable);
         return view;
     }
 }

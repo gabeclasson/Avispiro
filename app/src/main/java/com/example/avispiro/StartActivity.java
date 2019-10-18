@@ -21,9 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements Serializable {
+    private MyDatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,28 +34,33 @@ public class StartActivity extends AppCompatActivity {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*
-        This was commented out because it was causing errors.
-        String[] nameList = {"hi", "bye"};
-        String[] dateList = {"01-01-01", "02-02-02"};
-        Drawable[] imageList = {ResourcesCompat.getDrawable(res, R.drawable.winter_solstice,null),
-                ResourcesCompat.getDrawable(res,R.drawable.ic_launcher_foreground, null)};
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), nameList, dateList, imageList);
+        databaseHelper = new MyDatabaseHelper(this, null, null, 0);
+        Bird bird = new Bird();
+        bird.setId(databaseHelper.addBird(bird));
+
+        final Bird[] listBirds = databaseHelper.getAllBirds();
+
+        final ListView listView = (ListView) findViewById(R.id.listView);
+        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
         listView.setAdapter(adapter);
 
         AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(StartActivity.this, InfoActivity.class);
-                // intent.putExtra(InfoActivity.BIRD_SELECTED,(int) l)
+                intent.putExtra("wowKey", listBirds[i]);
                 startActivity(intent);
             }
         };
 
         listView.setOnItemClickListener(birdClickListener);
-         */
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
     }
 
     @Override
