@@ -36,9 +36,7 @@ public class Bird implements Serializable {
     }
 
     public static Drawable bitmapToDrawable (Context context, Bitmap bitmap){
-        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
-        drawable.setCircular(true);
-        return drawable;
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     public Bird(){

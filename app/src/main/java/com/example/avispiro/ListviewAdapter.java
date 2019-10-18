@@ -19,6 +19,10 @@ import java.util.ArrayList;
 
 public class ListviewAdapter extends BaseAdapter {
 
+    /**
+     *  Source: https://abhiandroid.com/ui/listview
+     *  Purpose: Making custom Listview adapter
+     */
     private Bird[] birdArray;
     private LayoutInflater inflater;
 
@@ -49,7 +53,13 @@ public class ListviewAdapter extends BaseAdapter {
         nameText.setText(birdArray[i].getName());
         timeText.setText(birdArray[i].getTime().toString());
 
-        //image.setImageDrawable(birdArray.get(i).bitmapToDrawable());
+        /**
+         *  Source: https://stackoverflow.com/questions/26850780/bitmap-circular-crop-in-android
+         *  Purpose: Converting bitmap to drawable and rounding its corners
+         */
+        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(view.getResources(), birdArray[i].getImage());
+
+        image.setImageDrawable(imageDrawable);
         return view;
     }
 }
