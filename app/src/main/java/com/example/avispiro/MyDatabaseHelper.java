@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
-    private static final String TAG = "MyDataBaseHelper";
+    private static final String TAG = "MyDatabaseHelperLog";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "scores.db";
 
@@ -67,7 +67,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MINUTE, time.getMinute());
         SQLiteDatabase db = getWritableDatabase();
         int id = (int) db.insert(TABLE_BIRDS, null, values);
-        // USE THIS TO FIX https://stackoverflow.com/questions/27764486/java-sqlite-last-insert-rowid-return-0
         db.close();
         return id;
     }
@@ -93,16 +92,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public String databasetoString() {
         String dbstring = "";
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE ?";
         // This means to select all from the database
 
         // The cursor will extract the entries from the database
-        Cursor c = db.rawQuery(query, null);
-
+        Cursor c = db.rawQuery(query, new String[] {"1"});
+        Log.d(TAG, c.getCount() + " Count");
         // Move the cursor to the first position and then move through the db to the last
         c.moveToFirst();
         while(!c.isAfterLast()) {
-            if(c.getString(c.getColumnIndex(COLUMN_NAME)) != null ) {
+           if(c.getString(c.getColumnIndex(COLUMN_NAME)) != null ) {
                 dbstring += c.getString(c.getColumnIndex(COLUMN_NAME)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_PLACE)) + ", ";
@@ -114,10 +113,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_HOUR)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_MINUTE)) + ", ";
                 dbstring += "\n";
-            }
+           }
             c.moveToNext();
         }
-
+        c.close();
         db.close();
         return dbstring;
 
@@ -148,8 +147,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
             bird.setTime(time);
             bird.setId(id);
+            db.close();
+            c.close();
             return bird;
         }
+        db.close();
+        c.close();
         return null;
     }
 
@@ -180,6 +183,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
+        db.close();
+        c.close();
         return out;
     }
 

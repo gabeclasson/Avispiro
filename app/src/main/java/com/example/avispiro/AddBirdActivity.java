@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AddBirdActivity extends AppCompatActivity {
-    public static final String TAG = "AddBirdActivity";
+    public static final String TAG = "AddBirdActivityLog";
     public static final int RESULT_RETURN_IMG = 7;
     static final int REQUEST_TAKE_PHOTO = 1;
 
@@ -251,7 +251,9 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setCategory(birdCategory);
         bird.setImage(birdImage);
         bird.setTime(birdTime);
+        Log.d(TAG, bird.toString());
         bird.setId(databaseHelper.addBird(bird));
+        Log.d(TAG, databaseHelper.databasetoString());
         Intent intent = new Intent(this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
         startActivity(intent);
