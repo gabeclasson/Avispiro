@@ -110,6 +110,14 @@ public class AddBirdActivity extends AppCompatActivity {
         currentActivity = this;
         currentPhotoPath = "";
         databaseHelper = new MyDatabaseHelper(this, null, null, 1);
+
+        databaseHelper.deleteAllBirds("YES");
+        databaseHelper.addBird(new Bird());
+        Bird bird = new Bird();
+        bird.setId(databaseHelper.addBird(bird));
+        bird.setName("Osprey");
+        databaseHelper.updateBird(bird);
+        databaseHelper.removeBird(bird.getId());
     }
 
     @Override

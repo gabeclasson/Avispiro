@@ -67,7 +67,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MINUTE, time.getMinute());
         SQLiteDatabase db = getWritableDatabase();
         int id = (int) db.insert(TABLE_BIRDS, null, values);
-        db.close();
         return id;
     }
 
@@ -81,7 +80,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Bird bird = getBird(id);
         String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
         db.execSQL(query);
-        db.close();
         return bird;
     }
 
@@ -117,7 +115,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             c.moveToNext();
         }
         c.close();
-        db.close();
         return dbstring;
 
     }
@@ -147,11 +144,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             time.setMinute(c.getInt(c.getColumnIndex(COLUMN_MINUTE)));
             bird.setTime(time);
             bird.setId(id);
-            db.close();
             c.close();
             return bird;
         }
-        db.close();
         c.close();
         return null;
     }
@@ -183,7 +178,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-        db.close();
         c.close();
         return out;
     }
@@ -208,7 +202,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MINUTE, time.getMinute());
         SQLiteDatabase db = getWritableDatabase();
         db.update(TABLE_BIRDS, values,COLUMN_ID + " = '" + bird.getId() + "';", null);
-        db.close();
         return returned;
     }
 
@@ -217,7 +210,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = getWritableDatabase();
             String query = "DELETE FROM " + TABLE_BIRDS + " WHERE 1;";
             db.execSQL(query);
-            db.close();
         }
     }
 }
