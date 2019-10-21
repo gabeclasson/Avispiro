@@ -251,11 +251,10 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setCategory(birdCategory);
         bird.setImage(birdImage);
         bird.setTime(birdTime);
-        Log.d(TAG, bird.toString());
         bird.setId(databaseHelper.addBird(bird));
-        Log.d(TAG, databaseHelper.databasetoString());
         Intent intent = new Intent(this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
+        databaseHelper.close();
         startActivity(intent);
     }
 

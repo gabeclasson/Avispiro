@@ -34,15 +34,9 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         databaseHelper = new MyDatabaseHelper(this, null, null, 0);
-        final Bird bird = new Bird();
-        bird.setId(databaseHelper.addBird(bird));
         final Bird[] listBirds = databaseHelper.getAllBirds();
-
         final ListView listView = (ListView) findViewById(R.id.listView);
-        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
-        listView.setAdapter(adapter);
 
         AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -63,6 +57,18 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         databaseHelper.close();
     }
 
+    public void updateBirdList(){
+        final Bird[] listBirds = databaseHelper.getAllBirds();
+        final ListView listView = (ListView) findViewById(R.id.listView);
+        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateBirdList();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
