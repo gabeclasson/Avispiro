@@ -71,7 +71,7 @@ public class InfoActivity extends AppCompatActivity {
         EditText nameEdit = (EditText) findViewById(R.id.editName);
         EditText descEdit = (EditText) findViewById(R.id.editDesc);
         EditText timeEdit = (EditText) findViewById(R.id.editTime);
-        EditText locationEdit = (EditText) findViewById(R.id.editLocation);
+        EditText locationEdit = (EditText) findViewById(R.id.editPlace);
 
 
         //show the dialog
