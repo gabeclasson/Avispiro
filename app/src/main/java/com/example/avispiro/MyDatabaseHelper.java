@@ -95,7 +95,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         // The cursor will extract the entries from the database
         Cursor c = db.rawQuery(query, new String[] {"1"});
-        Log.d(TAG, c.getCount() + " Count");
         // Move the cursor to the first position and then move through the db to the last
         c.moveToFirst();
         while(!c.isAfterLast()) {
@@ -116,7 +115,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return dbstring;
-
     }
 
     /**
