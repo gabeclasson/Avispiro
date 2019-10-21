@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 
-public class Bird implements Serializable {
+public class Bird{
 
     private String name, description, place, category;
     private Time time;

@@ -36,7 +36,7 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         setSupportActionBar(toolbar);
 
         databaseHelper = new MyDatabaseHelper(this, null, null, 0);
-        Bird bird = new Bird();
+        final Bird bird = new Bird();
         bird.setId(databaseHelper.addBird(bird));
 
         final Bird[] listBirds = databaseHelper.getAllBirds();
@@ -49,7 +49,8 @@ public class StartActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(StartActivity.this, InfoActivity.class);
-                intent.putExtra("wowKey", listBirds[i]);
+                int birdId = listBirds[i].getId();
+                intent.putExtra(InfoActivity.BIRD_ID, birdId);
                 startActivity(intent);
             }
         };
