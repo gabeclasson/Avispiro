@@ -38,7 +38,6 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         databaseHelper = new MyDatabaseHelper(this, null, null, 0);
         Bird bird = new Bird();
         bird.setId(databaseHelper.addBird(bird));
-
         final Bird[] listBirds = databaseHelper.getAllBirds();
 
         final ListView listView = (ListView) findViewById(R.id.listView);
