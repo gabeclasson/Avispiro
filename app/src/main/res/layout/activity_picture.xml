@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".PictureActivity">
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/imageChosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
