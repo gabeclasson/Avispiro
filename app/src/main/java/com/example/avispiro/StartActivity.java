@@ -26,7 +26,7 @@ import java.util.List;
 
 public class StartActivity extends AppCompatActivity implements Serializable {
     private MyDatabaseHelper databaseHelper;
-
+    private AdapterView.OnItemClickListener birdClickListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,10 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        databaseHelper = new MyDatabaseHelper(this, null, null, 0);
+        MyDatabaseHelper databaseHelper = ((AvispiroApplication)getApplication()).getDatabaseHelper();
+    }
+
+    public void updateBirdList(){
         final Bird[] listBirds = databaseHelper.getAllBirds();
         final ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -52,23 +55,15 @@ public class StartActivity extends AppCompatActivity implements Serializable {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        databaseHelper.close();
+    protected void onPause(){
+        super.onPause();
     }
-
-    public void updateBirdList(){
-        final Bird[] listBirds = databaseHelper.getAllBirds();
-        final ListView listView = (ListView) findViewById(R.id.listView);
-        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
-        listView.setAdapter(adapter);
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
         updateBirdList();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
