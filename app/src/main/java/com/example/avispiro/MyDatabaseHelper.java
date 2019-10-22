@@ -28,6 +28,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_HOUR = "hour";
     public static final String COLUMN_MINUTE = "minute";
 
+    public static MyDatabaseHelper databaseHelper;
+
+    public static MyDatabaseHelper getInstance(Context context){
+        if (databaseHelper == null)
+            databaseHelper = new MyDatabaseHelper(context, null, null, 0);
+        return databaseHelper;
+    }
+
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }

@@ -25,20 +25,18 @@ import java.io.Serializable;
 import java.util.List;
 
 public class StartActivity extends AppCompatActivity implements Serializable {
-    private MyDatabaseHelper databaseHelper;
     private AdapterView.OnItemClickListener birdClickListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        MyDatabaseHelper databaseHelper = ((AvispiroApplication)getApplication()).getDatabaseHelper();
+        super.onCreate(savedInstanceState);
     }
 
     public void updateBirdList(){
-        final Bird[] listBirds = databaseHelper.getAllBirds();
+        final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirds();
         final ListView listView = (ListView) findViewById(R.id.listView);
 
         AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
@@ -50,14 +48,11 @@ public class StartActivity extends AppCompatActivity implements Serializable {
                 startActivity(intent);
             }
         };
-
+        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(birdClickListener);
     }
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-    }
     @Override
     protected void onResume(){
         super.onResume();

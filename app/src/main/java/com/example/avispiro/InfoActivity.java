@@ -42,8 +42,7 @@ public class InfoActivity extends AppCompatActivity {
          */
         Intent intent = getIntent();
         int birdId = intent.getIntExtra(BIRD_ID, 0);
-        MyDatabaseHelper helper = new MyDatabaseHelper(this, null, null, 0);
-        Bird birdSelected = helper.getBird(birdId);
+        Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdId);
 
         descText.setText(birdSelected.getDescription());
         nameText.setText(birdSelected.getName());

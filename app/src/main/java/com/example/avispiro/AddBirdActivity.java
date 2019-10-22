@@ -41,7 +41,6 @@ public class AddBirdActivity extends AppCompatActivity {
 
     private Bitmap image;
     private Time time;
-    private MyDatabaseHelper databaseHelper;
     String currentPhotoPath;
 
     /**
@@ -109,7 +108,6 @@ public class AddBirdActivity extends AppCompatActivity {
         time = null;
         currentActivity = this;
         currentPhotoPath = "";
-        databaseHelper = ((AvispiroApplication)getApplication()).getDatabaseHelper();
     }
 
     @Override
@@ -255,7 +253,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setCategory(birdCategory);
         bird.setImage(birdImage);
         bird.setTime(birdTime);
-        bird.setId(databaseHelper.addBird(bird));
+        bird.setId(MyDatabaseHelper.getInstance(getApplicationContext()).addBird(bird));
         Intent intent = new Intent(this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
         startActivity(intent);
