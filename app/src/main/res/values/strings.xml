@@ -10,4 +10,5 @@
     <string name="add_bird_time_text">Time</string>
     <string name="add_bird_image_text">Image</string>
     <string name="add_bird_button_text">Add Bird</string>
+    <string name="edit_bird_title_text">Edit Bird</string>
 </resources>

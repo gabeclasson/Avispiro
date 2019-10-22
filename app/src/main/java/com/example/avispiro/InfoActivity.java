@@ -17,6 +17,8 @@ import org.w3c.dom.Text;
 
 public class InfoActivity extends AppCompatActivity {
 
+    public static final String BIRD_ID = "birdId";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,9 @@ public class InfoActivity extends AppCompatActivity {
          * Purpose: Serializable, to pass objects through intent
          */
         Intent intent = getIntent();
-        Bird birdSelected = (Bird) intent.getSerializableExtra("wowKey");
+        int birdId = intent.getIntExtra(BIRD_ID, 0);
+        MyDatabaseHelper helper = new MyDatabaseHelper(this, null, null, 0);
+        Bird birdSelected = helper.getBird(birdId);
 
         descText.setText(birdSelected.getDescription());
         nameText.setText(birdSelected.getName());
@@ -67,7 +71,7 @@ public class InfoActivity extends AppCompatActivity {
         EditText nameEdit = (EditText) findViewById(R.id.editName);
         EditText descEdit = (EditText) findViewById(R.id.editDesc);
         EditText timeEdit = (EditText) findViewById(R.id.editTime);
-        EditText locationEdit = (EditText) findViewById(R.id.editLocation);
+        EditText locationEdit = (EditText) findViewById(R.id.editPlace);
 
 
         //show the dialog

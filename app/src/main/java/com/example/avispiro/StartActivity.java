@@ -26,7 +26,7 @@ import java.util.List;
 
 public class StartActivity extends AppCompatActivity implements Serializable {
     private MyDatabaseHelper databaseHelper;
-
+    private AdapterView.OnItemClickListener birdClickListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,22 +34,19 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        MyDatabaseHelper databaseHelper = ((AvispiroApplication)getApplication()).getDatabaseHelper();
+    }
 
-        databaseHelper = new MyDatabaseHelper(this, null, null, 0);
-        Bird bird = new Bird();
-        bird.setId(databaseHelper.addBird(bird));
-
+    public void updateBirdList(){
         final Bird[] listBirds = databaseHelper.getAllBirds();
-
         final ListView listView = (ListView) findViewById(R.id.listView);
-        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
-        listView.setAdapter(adapter);
 
         AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(StartActivity.this, InfoActivity.class);
-                intent.putExtra("wowKey", listBirds[i]);
+                int birdId = listBirds[i].getId();
+                intent.putExtra(InfoActivity.BIRD_ID, birdId);
                 startActivity(intent);
             }
         };
@@ -58,9 +55,13 @@ public class StartActivity extends AppCompatActivity implements Serializable {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        databaseHelper.close();
+    protected void onPause(){
+        super.onPause();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateBirdList();
     }
 
     @Override

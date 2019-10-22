@@ -109,21 +109,17 @@ public class AddBirdActivity extends AppCompatActivity {
         time = null;
         currentActivity = this;
         currentPhotoPath = "";
-        databaseHelper = new MyDatabaseHelper(this, null, null, 1);
-
-        databaseHelper.deleteAllBirds("YES");
-        databaseHelper.addBird(new Bird());
-        Bird bird = new Bird();
-        bird.setId(databaseHelper.addBird(bird));
-        bird.setName("Osprey");
-        databaseHelper.updateBird(bird);
-        databaseHelper.removeBird(bird.getId());
+        databaseHelper = ((AvispiroApplication)getApplication()).getDatabaseHelper();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        databaseHelper.close();
+    protected void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
     /**
@@ -259,9 +255,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setCategory(birdCategory);
         bird.setImage(birdImage);
         bird.setTime(birdTime);
-        Log.d(TAG, bird.toString());
         bird.setId(databaseHelper.addBird(bird));
-        Log.d(TAG, databaseHelper.databasetoString());
         Intent intent = new Intent(this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
         startActivity(intent);
