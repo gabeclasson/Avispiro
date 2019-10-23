@@ -9,16 +9,6 @@
         android:padding="@dimen/general_margin"
         android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_bird_title_text"
-            android:textSize="@dimen/generalText"
-            android:textColor="#000000"
-            android:paddingBottom="20dp"/>
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +29,7 @@
             android:layout_width="@dimen/editTextWidth"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:textSize="@dimen/smallerText" />
+            style="@style/EditTextDialogueTheme" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +41,8 @@
             android:id="@+id/editTime"
             style="@style/EditTextDialogueTheme"
             android:cursorVisible="false"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:onClick="pickTimeEdit" />
 
         <TextView
             android:layout_width="wrap_content"

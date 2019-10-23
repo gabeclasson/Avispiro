@@ -28,7 +28,7 @@
     </style>
 
     <style name="EditTextDialogueTheme">
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">@dimen/smallerText</item>
         <item name="android:layout_width">@dimen/editTextWidth</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

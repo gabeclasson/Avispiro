@@ -43,6 +43,69 @@ public class AddBirdActivity extends AppCompatActivity {
     private Time time;
     String currentPhotoPath;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_bird);
+        image = null;
+        time = new Time();
+        currentPhotoPath = "";
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        currentActivity = this;
+    }
+
+    /**
+     * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
+     * and https://developer.android.com/training/camera/photobasics
+     * @param reqCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        if (reqCode == RESULT_RETURN_IMG) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    image = BitmapFactory.decodeStream(imageStream);
+                    setImageText("Selected");
+                } catch (Exception e) {
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
+            }
+        }
+        if (reqCode == REQUEST_TAKE_PHOTO){
+            if (resultCode == RESULT_OK){
+                try {
+                    image = BitmapFactory.decodeFile(currentPhotoPath);
+                    setImageText("From Camera");
+                }
+                catch (Exception e){
+                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void pickTime(View v) {
+        time = new Time();
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
     /**
      * Adapted from https://developer.android.com/guide/topics/ui/controls/pickers
      */
@@ -98,73 +161,6 @@ public class AddBirdActivity extends AppCompatActivity {
             super.onDestroy();
             currentActivity.setTimeText(currentActivity.getTime());
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_bird);
-        image = null;
-        time = null;
-        currentActivity = this;
-        currentPhotoPath = "";
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
-
-    /**
-     * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
-     * and https://developer.android.com/training/camera/photobasics
-     * @param reqCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
-        super.onActivityResult(reqCode, resultCode, data);
-        if (reqCode == RESULT_RETURN_IMG) {
-            if (resultCode == RESULT_OK) {
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    image = BitmapFactory.decodeStream(imageStream);
-                    setImageText("Selected");
-                } catch (Exception e) {
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-                }
-
-            } else {
-                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
-            }
-        }
-        if (reqCode == REQUEST_TAKE_PHOTO){
-            if (resultCode == RESULT_OK){
-                try {
-                    image = BitmapFactory.decodeFile(currentPhotoPath);
-                    setImageText("From Camera");
-                }
-                catch (Exception e){
-                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
-                }
-            }
-            else {
-                Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public void pickTime(View v) {
-        time = new Time();
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void setTimeText(Time time){
@@ -243,8 +239,8 @@ public class AddBirdActivity extends AppCompatActivity {
         String birdCategory = addBirdPlaceEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
         Bitmap birdImage = image;
         Time birdTime = time;
-        if (birdName.isEmpty() || birdDescription.isEmpty() || birdPlace.isEmpty() || birdCategory.isEmpty() || birdImage == null || birdTime  == null){
-            Toast.makeText(this, "You didn't fill in all fields correctly.", Toast.LENGTH_LONG).show();
+        if (birdName.isEmpty()){
+            Toast.makeText(this, "You must give your bird a name.", Toast.LENGTH_LONG).show();
             return;
         }
         bird.setName(birdName);

@@ -11,4 +11,11 @@
     <string name="add_bird_image_text">Image</string>
     <string name="add_bird_button_text">Add Bird</string>
     <string name="edit_bird_title_text">Edit Bird</string>
+    <string name="edit_bird_positive_button">Update</string>
+    <string name="edit_bird_neutral_button">Cancel</string>
+    <string name="edit_bird_negative_button">Delete</string>
+    <string name="delete_bird_title">Are You Sure?</string>
+    <string name="delete_bird_positive_button">Delete</string>
+    <string name="delete_bird_negative_button">Keep!</string>
+    <string name="delete_bird_message">Continuing with this action will permanently delete this bird from your Avispiro app. This activity cannot be undone.</string>
 </resources>

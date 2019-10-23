@@ -14,6 +14,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 
+/**
+ * Represent the information of a bird.
+ * Notes:
+ * No object instance variables should ever be null. Use empty strings and/or empty constructors to fill invalid fields.
+ * The category field should always be lower case with no white space on the outside.
+ */
 public class Bird{
 
     private String name, description, place, category;
@@ -40,10 +46,10 @@ public class Bird{
     }
 
     public Bird(){
-        name = "Bird";
-        description = "bird";
-        place = "Nowhere";
-        category = null;
+        name = "";
+        description = "";
+        place = "";
+        category = "";
         time = new Time();
         this.id = -1;
     }
@@ -62,7 +68,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = null;
+        this.category = "";
         this.image = image;
         this.time = time;
         this.id = -1;
@@ -82,7 +88,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = null;
+        this.category = "";
         this.image = image;
         this.time = time;
         this.id = id;
@@ -101,7 +107,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = null;
+        this.category = "";
         this.time = time;
         this.id = -1;
     }
@@ -119,7 +125,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = null;
+        this.category = "";
         this.time = time;
         this.id = id;
     }
