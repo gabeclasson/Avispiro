@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelperLog";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "scores.db";
+    private static final String DATABASE_NAME = "birds.db";
 
     public static final String TABLE_BIRDS = "birds";
     public static final String COLUMN_ID = "id";
@@ -27,6 +27,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_HOUR = "hour";
     public static final String COLUMN_MINUTE = "minute";
+
+    public static final String TABLE_CATEGORIES = "category_table";
+    public static final String COLUMN_CATEGORY_ID = "category_id";
+    public static final String COLUMN_CATEGORY_NAME = "category_name";
 
     public static MyDatabaseHelper databaseHelper;
 
@@ -52,7 +56,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         String query = " CREATE TABLE " + TABLE_BIRDS + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_IMAGE + " BLOB, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
         db.execSQL(query);
-
+        String query2 = " CREATE TABLE " + TABLE_CATEGORIES + " ( " + COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_CATEGORY_NAME + " TEXT ) ;";
+        db.execSQL(query2);
     }
 
     /**
@@ -76,6 +81,53 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         int id = (int) db.insert(TABLE_BIRDS, null, values);
         return id;
+    }
+
+    public int addCategory(Category category) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORY_NAME, category.getName());
+        SQLiteDatabase db = getWritableDatabase();
+        int id = (int) db.insert(TABLE_CATEGORIES,null, values);
+        return id;
+    }
+
+    public Category removeCategory(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        Category category = getCategory(id);
+        String query = "DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_ID + " =\"" + id + "\";";
+        db.execSQL(query);
+        return category;
+    }
+
+    public Category getCategory(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_CATEGORY_ID + " = '" + id + "' ; ";
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        if (!c.isAfterLast()){
+            Category category = new Category();
+            category.setName(c.getString(c.getColumnIndex(COLUMN_CATEGORY_NAME)));
+            category.setId(c.getInt(c.getColumnIndex(COLUMN_CATEGORY_ID)));
+            c.close();
+            return category;
+        }
+        c.close();
+        return null;
+    }
+
+    public Category[] getCategories(){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        Category[] out = new Category[c.getCount()];
+        int index = 0;
+        while(!c.isAfterLast()) {
+            if (c.getString(c.getColumnIndex(COLUMN_CATEGORY_NAME)) != null) {
+                out[index++] = new Category(c.getString(c.getColumnIndex(COLUMN_CATEGORY_NAME)), c.getInt(c.getColumnIndex(COLUMN_CATEGORY_ID)));
+            }
+        }
+        return out;
     }
 
     /**

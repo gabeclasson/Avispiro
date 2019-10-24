@@ -30,7 +30,7 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
     public static final int RESULT_RETURN_IMG = 7;
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    private ImageButton imageButton = (ImageButton) findViewById(R.id.imageChosen);
+    private ImageButton imageButton = null;
     String currentPhotoPath;
 
 
