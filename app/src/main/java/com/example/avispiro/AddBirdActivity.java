@@ -236,7 +236,7 @@ public class AddBirdActivity extends AppCompatActivity {
         String birdName = addBirdNameEdit.getText().toString().trim();
         String birdDescription = addBirdDescriptionEdit.getText().toString().trim();
         String birdPlace = addBirdPlaceEdit.getText().toString().trim();
-        String birdCategory = addBirdPlaceEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
+        String birdCategory = addBirdCategoryEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
         Bitmap birdImage = image;
         Time birdTime = time;
         if (birdName.isEmpty()){
