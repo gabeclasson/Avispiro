@@ -25,7 +25,7 @@
     <EditText
         android:id="@+id/addBirdNameEdit"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:layout_marginEnd="@dimen/horizontal_spacing"
         android:ems="10"
@@ -48,9 +48,8 @@
     <EditText
         android:id="@+id/addBirdDescriptionEdit"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
-        android:layout_marginStart="0dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -74,7 +73,7 @@
     <EditText
         android:id="@+id/addBirdPlaceEdit"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:ems="10"
         android:gravity="start|top"
@@ -96,14 +95,30 @@
         app:layout_constraintEnd_toStartOf="@+id/addBirdCategoryEdit"
         app:layout_constraintTop_toTopOf="@+id/addBirdCategoryEdit" />
 
-    <EditText
-        android:id="@+id/addBirdCategoryEdit"
+
+    <Spinner
+        android:id="@+id/addBirdCategorySpinner"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:theme="@style/SpinnerTheme"
+        app:layout_constraintEnd_toEndOf="@+id/addBirdPlaceEdit"
+        app:layout_constraintStart_toStartOf="@+id/addBirdPlaceEdit"
+        app:layout_constraintTop_toBottomOf="@+id/addBirdPlaceEdit" />
+
+    <EditText
+        android:id="@+id/addBirdCategoryEdit"
+        android:layout_width="@dimen/editTextWidth"
+        android:layout_height="@dimen/editTextHeight"
+        android:layout_marginTop="@dimen/vertical_spacing"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:gravity="start|top"
+        android:inputType="none"
         android:singleLine="true"
         android:theme="@style/EditTextViewTheme"
         app:layout_constraintEnd_toEndOf="@+id/addBirdPlaceEdit"
@@ -124,7 +139,7 @@
     <EditText
         android:id="@+id/addBirdTimeEdit"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:cursorVisible="false"
         android:ems="10"
@@ -152,7 +167,7 @@
     <EditText
         android:id="@+id/addBirdImageEdit"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/editTextHeight"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:clickable="false"
         android:cursorVisible="false"
