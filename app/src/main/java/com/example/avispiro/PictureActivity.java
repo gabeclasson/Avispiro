@@ -130,6 +130,7 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
                     final Uri imageUri = data.getData();
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     image = BitmapFactory.decodeStream(imageStream);
+                    imageButton.setImageBitmap(image);
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
@@ -142,6 +143,7 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
             if (resultCode == RESULT_OK){
                 try {
                     image = BitmapFactory.decodeFile(currentPhotoPath);
+                    imageButton.setImageBitmap(image);
                 }
                 catch (Exception e){
                     Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
