@@ -136,6 +136,12 @@ public class InfoActivity extends AppCompatActivity {
         categoryEdit.setText(birdSelected.getCategory());
     }
 
+    public void onButtonClick(View v){
+        Intent intent = new Intent(InfoActivity.this, PictureActivity.class);
+        intent.putExtra(PictureActivity.CURRENT_BIRD_ID, birdSelected.getId());
+        startActivity(intent);
+    }
+
     /**
      * Adapted from https://developer.android.com/guide/topics/ui/controls/pickers
      */

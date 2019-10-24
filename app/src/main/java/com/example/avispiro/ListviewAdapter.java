@@ -58,7 +58,7 @@ public class ListviewAdapter extends BaseAdapter {
          *  Purpose: Converting bitmap to drawable and rounding its corners
          */
         RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(view.getResources(), birdArray[i].getImage());
-
+        imageDrawable.setCircular(true);
         image.setImageDrawable(imageDrawable);
         return view;
     }

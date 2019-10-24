@@ -30,7 +30,8 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
     public static final int RESULT_RETURN_IMG = 7;
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    private ImageButton imageButton = (ImageButton) findViewById(R.id.imageChosen);
+    public static final String CURRENT_BIRD_ID = "birdID";
+
     String currentPhotoPath;
 
 
@@ -38,7 +39,13 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
         currentPhotoPath = "";
+    }
+
+    public boolean onMenuSelect(MenuItem item){
+        showPopup(findViewById(item.getItemId()));
+        return true;
     }
 
     /**
@@ -70,16 +77,35 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
     }
 
     public boolean onMenuItemClick(MenuItem item){
+
+        MyDatabaseHelper databaseHelper = new MyDatabaseHelper(this, null, null, 0);
+        Intent intent = getIntent();
+        int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
+        Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
+
         switch (item.getItemId()){
             //Feel free to replace the arbitrary things
+            /**
+             * Source: https://stackoverflow.com/questions/8560501/android-save-image-into-gallery
+             * Purpose: Save images into gallery
+             */
             case R.id.choiceSave:
-                System.out.println("Arb");
+                MediaStore.Images.Media.insertImage(getContentResolver(), birdSelected.getImage(), "Your picture", null);
                 break;
 
             case R.id.choiceShare:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                
-                intent.setType("image/jpg");
+
+                /**
+                 * Source: https://stackoverflow.com/questions/7661875/how-to-use-share-image-using-sharing-intent-to-share-images-in-android
+                 * Purpose: Sharing images
+                 */
+
+                Intent intentSend = new Intent(Intent.ACTION_SEND);
+                Bitmap selectedImage = birdSelected.getImage();
+                String path = MediaStore.Images.Media.insertImage(getContentResolver(), selectedImage, "Your picture", null);
+                intentSend.setType("image/jpg");
+                intentSend.putExtra(Intent.EXTRA_STREAM, path);
+                startActivity(Intent.createChooser(intentSend, "Choose an app to share"));
                 break;
 
             case R.id.choiceTake:
