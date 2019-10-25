@@ -3,6 +3,7 @@ package com.example.avispiro;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,7 +26,7 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
+public class PictureActivity extends AppCompatActivity{
     private static String POPUP_CONSTANT = "mPopup";
     private static String POPUP_FORCE_SHOW_ICON = "setForceShowIcon";
     public static final int RESULT_RETURN_IMG = 7;
@@ -43,27 +45,31 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
         currentPhotoPath = "";
     }
 
-    public boolean onMenuSelect(MenuItem item){
-        showPopup(findViewById(item.getItemId()));
-        return true;
+    public void onClickPopup(View v){
+        showPopup(v, R.style.Widget_AppCompat_Light_PopupMenu);
     }
 
     /**
-     * Source:http://www.apnatutorials.com/android/using-popup-menu-as-options-menu.php?categoryId=2&subCategoryId=30&myPath=android/using-popup-menu-as-options-menu.php
+     * Source: https://www.androhub.com/android-popup-menu/
      * Purpose: Force menu to show icons using an unnecessarily complicated process
      * @param view
      */
-    public void showPopup(View view) {
-        PopupMenu popup = new PopupMenu(PictureActivity.this, view);
+    public void showPopup(View view, int style) {
+        //init the wrapper with style
+        Context wrapper = new ContextThemeWrapper(this, style);
+
+        //init the popup
+        PopupMenu popup = new PopupMenu(wrapper, view);
+
+        /*  The below code in try catch is responsible to display icons*/
         try {
-            // Reflection apis to enforce show icon
             Field[] fields = popup.getClass().getDeclaredFields();
             for (Field field : fields) {
-                if (field.getName().equals(POPUP_CONSTANT)) {
+                if ("mPopup".equals(field.getName())) {
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
                     Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                    Method setForceIcons = classPopupHelper.getMethod(POPUP_FORCE_SHOW_ICON, boolean.class);
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
                 }
@@ -71,9 +77,15 @@ public class PictureActivity extends AppCompatActivity implements PopupMenu.OnMe
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         popup.getMenuInflater().inflate(R.menu.menu_picture, popup.getMenu());
-        popup.setOnMenuItemClickListener(this);
-        popup.show();
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return PictureActivity.this.onMenuItemClick(menuItem);
+            }
+        });
     }
 
     public boolean onMenuItemClick(MenuItem item){
