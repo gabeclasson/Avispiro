@@ -30,7 +30,7 @@
             android:id="@+id/editDesc"
             style="@style/EditTextDialogueTheme"
             android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
+            android:layout_height="wrap_content"
             android:inputType="textMultiLine" />
 
         <TextView

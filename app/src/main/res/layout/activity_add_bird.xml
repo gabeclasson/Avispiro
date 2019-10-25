@@ -48,7 +48,7 @@
     <EditText
         android:id="@+id/addBirdDescriptionEdit"
         android:layout_width="@dimen/editTextWidth"
-        android:layout_height="@dimen/editTextHeight"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vertical_spacing"
         android:ems="10"
         android:gravity="start|top"

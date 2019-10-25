@@ -1,13 +1,17 @@
 package com.example.avispiro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -38,7 +42,8 @@ import java.util.Date;
 public class AddBirdActivity extends AppCompatActivity {
     public static final String TAG = "AddBirdActivityLog";
     public static final int RESULT_RETURN_IMG = 7;
-    static final int REQUEST_TAKE_PHOTO = 1;
+    public static final int REQUEST_TAKE_PHOTO = 1;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 9;
 
     private static AddBirdActivity currentActivity = null;
 
@@ -181,7 +186,19 @@ public class AddBirdActivity extends AppCompatActivity {
         birdImageEdit.setText(name);
     }
 
+    /**
+     * Adapted from https://developer.android.com/training/permissions/requesting.html
+     * @param v
+     */
     public void pickImage(View v){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the requests
+        }
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, RESULT_RETURN_IMG);
