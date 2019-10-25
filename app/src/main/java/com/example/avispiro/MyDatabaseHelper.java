@@ -168,6 +168,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
+        c.close();
         return out;
     }
 

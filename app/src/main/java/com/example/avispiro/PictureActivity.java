@@ -43,11 +43,9 @@ public class PictureActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
-        MyDatabaseHelper databaseHelper = new MyDatabaseHelper(this, null, null, 0);
         Intent intent = getIntent();
         int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
         Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
-
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
         imageButton.setImageBitmap(birdSelected.getImage());
         currentPhotoPath = "";
