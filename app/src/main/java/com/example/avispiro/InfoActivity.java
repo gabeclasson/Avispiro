@@ -13,11 +13,13 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -64,7 +66,6 @@ public class InfoActivity extends AppCompatActivity {
         locationText.setText(birdSelected.getPlace());
         timeText.setText(birdSelected.getTime().toString());
         imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage()));
-
         ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
     }
 
@@ -88,7 +89,10 @@ public class InfoActivity extends AppCompatActivity {
         final EditText descEdit = (EditText) dialogView.findViewById(R.id.editDesc);
         final EditText timeEdit = (EditText) dialogView.findViewById(R.id.editTime);
         final EditText placeEdit = (EditText) dialogView.findViewById(R.id.editPlace);
-        final EditText categoryEdit = (EditText) dialogView.findViewById(R.id.editCategories);
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, MyDatabaseHelper.getInstance(getApplicationContext()).getCategories());
+        final Spinner categorySpinner = dialogView.findViewById(R.id.spinnerCategories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
+        categorySpinner.setAdapter(adapter);
         final InfoActivity currentActivityParam = this;
         final Time timeParam = time;
         final Bird birdSelectedParam = birdSelected;
@@ -99,7 +103,7 @@ public class InfoActivity extends AppCompatActivity {
                 String name = nameEdit.getText().toString().trim();
                 String desc = descEdit.getText().toString().trim();
                 String place = placeEdit.getText().toString().trim();
-                String category = categoryEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
+                Category category = (Category) categorySpinner.getSelectedItem();
                 if (name.isEmpty()) {
                     name = birdSelectedParam.getName();
                 }
@@ -133,7 +137,7 @@ public class InfoActivity extends AppCompatActivity {
         descEdit.setText(birdSelected.getDescription());
         timeEdit.setText(birdSelected.getTime().toString());
         placeEdit.setText(birdSelected.getPlace());
-        categoryEdit.setText(birdSelected.getCategory());
+        categorySpinner.setSelection(Category.search(adapter, birdSelected.getCategory().getName()));
     }
 
     public void onButtonClick(View v){

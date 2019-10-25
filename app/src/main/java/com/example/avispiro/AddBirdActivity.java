@@ -17,9 +17,12 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -57,6 +60,11 @@ public class AddBirdActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         currentActivity = this;
+        // get categories
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, MyDatabaseHelper.getInstance(getApplicationContext()).getCategories());
+        Spinner addBirdCategorySpinner = findViewById(R.id.addBirdCategorySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
+        addBirdCategorySpinner.setAdapter(adapter);
     }
 
     /**
@@ -232,11 +240,11 @@ public class AddBirdActivity extends AppCompatActivity {
         EditText addBirdNameEdit = findViewById(R.id.addBirdNameEdit);
         EditText addBirdDescriptionEdit = findViewById(R.id.addBirdDescriptionEdit);
         EditText addBirdPlaceEdit = findViewById(R.id.addBirdPlaceEdit);
-        EditText addBirdCategoryEdit = findViewById(R.id.addBirdCategoryEdit);
+        Spinner addBirdCategorySpinner = findViewById(R.id.addBirdCategorySpinner);
         String birdName = addBirdNameEdit.getText().toString().trim();
         String birdDescription = addBirdDescriptionEdit.getText().toString().trim();
         String birdPlace = addBirdPlaceEdit.getText().toString().trim();
-        String birdCategory = addBirdCategoryEdit.getText().toString().trim().toLowerCase(); // NOTE: All BIRD CATEGORIES ARE LOWER CASE! CASE IS NOT IMPORTANT.
+        Category birdCategory = (Category) addBirdCategorySpinner.getSelectedItem();
         Bitmap birdImage = image;
         Time birdTime = time;
         if (birdName.isEmpty()){

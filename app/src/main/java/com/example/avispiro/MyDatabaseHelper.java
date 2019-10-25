@@ -54,10 +54,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = " CREATE TABLE " + TABLE_BIRDS + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " TEXT, " + COLUMN_IMAGE + " BLOB, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
+                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " INT, " + COLUMN_IMAGE + " BLOB, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
         db.execSQL(query);
         String query2 = " CREATE TABLE " + TABLE_CATEGORIES + " ( " + COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_CATEGORY_NAME + " TEXT ) ;";
         db.execSQL(query2);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORY_NAME, new Category().getName());
+        db.insert(TABLE_CATEGORIES,null, values);
     }
 
     /**
@@ -71,7 +74,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, bird.getName());
         values.put(COLUMN_DESCRIPTION, bird.getDescription());
         values.put(COLUMN_PLACE, bird.getPlace());
-        values.put(COLUMN_CATEGORY, bird.getCategory());
+        values.put(COLUMN_CATEGORY, bird.getCategory().getId());
         values.put(COLUMN_IMAGE, bird.getImageAsBlob());
         values.put(COLUMN_YEAR, time.getYear());
         values.put(COLUMN_MONTH, time.getMonth());
@@ -83,6 +86,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    /**
+     * Removes a bird from the database given an id.
+     * @param id The id of the bird to remove. If this id is invalid, no bird will be removed.
+     * @return The bird that was removed from the database. If a bird by that id could not be found, the method will return null.
+     */
+    public Bird removeBird(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        Bird bird = getBird(id);
+        String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
+        db.execSQL(query);
+        return bird;
+    }
+
     public int addCategory(Category category) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY_NAME, category.getName());
@@ -91,12 +107,36 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    /**
+     * Removes a given category and uncategorizes all birds with the given category.
+     * @param id
+     * @return
+     */
     public Category removeCategory(int id) {
         SQLiteDatabase db = getWritableDatabase();
         Category category = getCategory(id);
         String query = "DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_ID + " =\"" + id + "\";";
         db.execSQL(query);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORY, 1);
+        db.update(TABLE_BIRDS, values, COLUMN_CATEGORY + " = '" + id + "';", null);
         return category;
+    }
+
+    /**
+     * Updates a category's name
+     * @param category
+     * @return
+     */
+    public Category updateCategory(Category category){
+        if (category.getId() < 0)
+            return null;
+        Category out = getCategory(category.getId());
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CATEGORY_NAME, category.getId());
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(TABLE_CATEGORIES, values, COLUMN_CATEGORY_ID + " = '" + category.getId() + "';", null);
+        return out;
     }
 
     public Category getCategory(int id) {
@@ -115,7 +155,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public Category[] getCategories(){
+    public Category[] getCategories() {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
         Cursor c = db.rawQuery(query, null);
@@ -126,21 +166,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             if (c.getString(c.getColumnIndex(COLUMN_CATEGORY_NAME)) != null) {
                 out[index++] = new Category(c.getString(c.getColumnIndex(COLUMN_CATEGORY_NAME)), c.getInt(c.getColumnIndex(COLUMN_CATEGORY_ID)));
             }
+            c.moveToNext();
         }
         return out;
-    }
-
-    /**
-     * Removes a bird from the database given an id.
-     * @param id The id of the bird to remove. If this id is invalid, no bird will be removed.
-     * @return The bird that was removed from the database. If a bird by that id could not be found, the method will return null.
-     */
-    public Bird removeBird(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        Bird bird = getBird(id);
-        String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
-        db.execSQL(query);
-        return bird;
     }
 
     /**
@@ -190,10 +218,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (!c.isAfterLast()){
             Bird bird = new Bird();
             Time time = new Time();
+            int categoryId;
             bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
             bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
             bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
-            bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+            categoryId = c.getInt(c.getColumnIndex(COLUMN_CATEGORY));
+            bird.setCategory(getCategory(categoryId));
             bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
             time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
             time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
@@ -220,10 +250,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             if(c.getString(c.getColumnIndex(COLUMN_NAME)) != null ) {
                 Bird bird = new Bird();
                 Time time = new Time();
+                int categoryId;
                 bird.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                 bird.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
                 bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
-                bird.setCategory(c.getString(c.getColumnIndex(COLUMN_CATEGORY)));
+                categoryId = c.getInt(c.getColumnIndex(COLUMN_CATEGORY));
+                bird.setCategory(getCategory(categoryId));
                 bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
                 time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
                 time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
@@ -251,7 +283,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, bird.getName());
         values.put(COLUMN_DESCRIPTION, bird.getDescription());
         values.put(COLUMN_PLACE, bird.getPlace());
-        values.put(COLUMN_CATEGORY, bird.getCategory());
+        values.put(COLUMN_CATEGORY, bird.getCategory().getId());
         values.put(COLUMN_IMAGE, bird.getImageAsBlob());
         values.put(COLUMN_YEAR, time.getYear());
         values.put(COLUMN_MONTH, time.getMonth());
