@@ -26,6 +26,7 @@ import java.util.List;
 
 public class StartActivity extends AppCompatActivity implements Serializable {
     private AdapterView.OnItemClickListener birdClickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_start);

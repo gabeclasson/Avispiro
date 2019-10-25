@@ -22,7 +22,8 @@ import java.sql.Blob;
  */
 public class Bird{
 
-    private String name, description, place, category;
+    private String name, description, place;
+    private Category category;
     private Time time;
     private int id;
     private Bitmap image;
@@ -49,12 +50,12 @@ public class Bird{
         name = "";
         description = "";
         place = "";
-        category = "";
+        category = new Category();
         time = new Time();
         this.id = -1;
     }
 
-    public Bird(String name, String description, String place, String category, Bitmap image, Time time){
+    public Bird(String name, String description, String place, Category category, Bitmap image, Time time){
         this.name = name;
         this.description = description;
         this.place = place;
@@ -68,7 +69,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = "";
+        this.category = new Category();
         this.image = image;
         this.time = time;
         this.id = -1;
@@ -78,7 +79,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = category;
+        this.category = new Category();
         this.image = image;
         this.time = time;
         this.id = id;
@@ -88,7 +89,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = "";
+        this.category = new Category();
         this.image = image;
         this.time = time;
         this.id = id;
@@ -98,7 +99,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = category;
+        this.category = new Category();
         this.time = time;
         this.id = -1;
     }
@@ -107,7 +108,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = "";
+        this.category = new Category();
         this.time = time;
         this.id = -1;
     }
@@ -116,7 +117,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = category;
+        this.category = new Category();
         this.time = time;
         this.id = id;
     }
@@ -125,7 +126,7 @@ public class Bird{
         this.name = name;
         this.description = description;
         this.place = place;
-        this.category = "";
+        this.category = new Category();
         this.time = time;
         this.id = id;
     }
@@ -154,11 +155,11 @@ public class Bird{
         this.place = place;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
