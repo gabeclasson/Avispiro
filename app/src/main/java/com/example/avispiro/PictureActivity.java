@@ -31,6 +31,7 @@ public class PictureActivity extends AppCompatActivity{
     private static String POPUP_FORCE_SHOW_ICON = "setForceShowIcon";
     public static final int RESULT_RETURN_IMG = 7;
     static final int REQUEST_TAKE_PHOTO = 1;
+    private Bird selectedBird;
 
     public static final String CURRENT_BIRD_ID = "birdID";
 
@@ -41,7 +42,14 @@ public class PictureActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+
+        MyDatabaseHelper databaseHelper = new MyDatabaseHelper(this, null, null, 0);
+        Intent intent = getIntent();
+        int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
+        Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
+
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
+        imageButton.setImageBitmap(birdSelected.getImage());
         currentPhotoPath = "";
     }
 
