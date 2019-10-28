@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".PictureActivity">
 
-    <ImageButton
-        android:id="@+id/chosenImage"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Your picture:"
+        android:textSize="@dimen/largerText"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp" />
+
+    <ImageButton
+        android:id="@+id/chosenImage"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
         android:onClick="onClickPopup"
         />
 

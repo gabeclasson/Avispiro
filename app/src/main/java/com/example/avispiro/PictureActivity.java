@@ -92,6 +92,8 @@ public class PictureActivity extends AppCompatActivity{
                 return PictureActivity.this.onMenuItemClick(menuItem);
             }
         });
+
+        popup.show();
     }
 
     public boolean onMenuItemClick(MenuItem item){
@@ -104,12 +106,15 @@ public class PictureActivity extends AppCompatActivity{
         switch (item.getItemId()){
             //Feel free to replace the arbitrary things
             /**
-             * Source: https://stackoverflow.com/questions/8560501/android-save-image-into-gallery
+             * Source: https://developer.android.com/training/camera/photobasics.html
              * Purpose: Save images into gallery
              */
             case R.id.choiceSave:
-                MediaStore.Images.Media.insertImage(getContentResolver(), birdSelected.getImage(), "Your picture", null);
-                break;
+                Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                File f = new File(currentPhotoPath);
+                Uri contentUri = Uri.fromFile(f);
+                mediaIntent.setData(contentUri);
+                this.sendBroadcast(mediaIntent);
 
             case R.id.choiceShare:
 
