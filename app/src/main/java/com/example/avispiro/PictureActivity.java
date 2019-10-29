@@ -104,7 +104,6 @@ public class PictureActivity extends AppCompatActivity{
         Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
 
         switch (item.getItemId()){
-            //Feel free to replace the arbitrary things
             /**
              * Source: https://developer.android.com/training/camera/photobasics.html
              * Purpose: Save images into gallery

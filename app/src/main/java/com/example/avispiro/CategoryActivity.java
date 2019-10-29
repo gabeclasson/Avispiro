@@ -1,17 +1,44 @@
 package com.example.avispiro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Categories");
+
+        final Category[] categories = MyDatabaseHelper.getInstance(getApplicationContext()).getCategories();
+        ArrayAdapter<Category> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
+
+        ListView listCategories = (ListView) findViewById(R.id.listViewCategories);
+        listCategories.setAdapter(listAdapter);
+
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(CategoryActivity.this, StartActivity.class);
+                int categoryId = categories[i].getId();
+                intent.putExtra(StartActivity.CATEGORY_SELECTED, categoryId);
+                startActivity(intent);
+            }
+        };
+
+        listCategories.setOnItemClickListener(itemClickListener);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,4 +66,6 @@ public class CategoryActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

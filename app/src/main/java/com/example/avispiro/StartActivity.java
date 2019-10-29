@@ -27,6 +27,8 @@ import java.util.List;
 public class StartActivity extends AppCompatActivity implements Serializable {
     private AdapterView.OnItemClickListener birdClickListener;
 
+    public static final String CATEGORY_SELECTED = "category_selected";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_start);
@@ -77,6 +79,10 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.action_settings){
+            Intent intent = new Intent(StartActivity.this, CategoryActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
