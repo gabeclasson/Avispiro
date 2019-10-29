@@ -50,6 +50,7 @@ public class AddBirdActivity extends AppCompatActivity {
     private String imageURI;
     private Time time;
     String currentPhotoPath;
+    String currentPhotoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class AddBirdActivity extends AppCompatActivity {
         imageURI = "";
         time = new Time();
         currentPhotoPath = "";
+        currentPhotoURI = "";
     }
 
 
@@ -85,6 +87,7 @@ public class AddBirdActivity extends AppCompatActivity {
         if (reqCode == RESULT_RETURN_IMG) {
             if (resultCode == RESULT_OK) {
                 try {
+                    // DEBUG SAVE IMAGES!
                     final Uri imageUri = data.getData();
                     this.imageURI = imageUri.toString();
                     setImageText("Selected");
@@ -99,8 +102,7 @@ public class AddBirdActivity extends AppCompatActivity {
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
                 try {
-                    final Uri imageUri = data.getData();
-                    this.imageURI = imageUri.toString();
+                    this.imageURI = currentPhotoURI;
                     setImageText("From Camera");
                 }
                 catch (Exception e){
@@ -246,6 +248,7 @@ public class AddBirdActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+                currentPhotoURI = photoURI.toString();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
