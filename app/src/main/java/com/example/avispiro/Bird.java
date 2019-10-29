@@ -1,18 +1,15 @@
 package com.example.avispiro;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
-import java.sql.Blob;
+import java.io.IOException;
 
 /**
  * Represent the information of a bird.
@@ -26,7 +23,7 @@ public class Bird{
     private Category category;
     private Time time;
     private int id;
-    private Bitmap image;
+    private String imageURI;
 
     public static Bitmap drawableToBitmap (Drawable drawable) {
 
@@ -52,57 +49,50 @@ public class Bird{
         place = "";
         category = new Category();
         time = new Time();
+        imageURI = "";
         this.id = -1;
     }
 
-    public Bird(String name, String description, String place, Category category, Bitmap image, Time time){
+    public Bird(String name, String description, String place, Category category, String imageURI, Time time){
         this.name = name;
         this.description = description;
         this.place = place;
         this.category = category;
-        this.image = image;
+        this.imageURI = imageURI;
         this.time = time;
         this.id = -1;
     }
 
-    public Bird(String name, String description, String place, Bitmap image, Time time){
+    public Bird(String name, String description, String place, String imageURI, Time time){
         this.name = name;
         this.description = description;
         this.place = place;
         this.category = new Category();
-        this.image = image;
+        this.imageURI = imageURI;
         this.time = time;
         this.id = -1;
     }
 
-    public Bird(String name, String description, String place, String category, Bitmap image, Time time, int id){
+    public Bird(String name, String description, String place, String category, String imageURI, Time time, int id){
         this.name = name;
         this.description = description;
         this.place = place;
         this.category = new Category();
-        this.image = image;
+        this.imageURI = imageURI;
         this.time = time;
         this.id = id;
     }
 
-    public Bird(String name, String description, String place, Time time, Bitmap image, int id){
+    public Bird(String name, String description, String place, Time time, String imageURI, int id){
         this.name = name;
         this.description = description;
         this.place = place;
         this.category = new Category();
-        this.image = image;
+        this.imageURI = imageURI;
         this.time = time;
         this.id = id;
     }
 
-    public Bird(String name, String description, String place, String category, Time time){
-        this.name = name;
-        this.description = description;
-        this.place = place;
-        this.category = new Category();
-        this.time = time;
-        this.id = -1;
-    }
 
     public Bird(String name, String description, String place, Time time){
         this.name = name;
@@ -179,29 +169,22 @@ public class Bird{
         this.id = id;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public String getImageURI() {
+        return imageURI;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImageURI(String imageURI) {
+        this.imageURI = imageURI;
     }
 
-    // adapted from https://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
-    public byte[] getImageAsBlob(){
-        if (image == null)
-            return null;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
-    }
-
-    public void setImageAsBlob(byte[] blob){
-        if (blob == null || blob.length == 0) {
-            image = null;
-            return;
+    public Bitmap getImage(Context context) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(imageURI));
+            return bitmap;
         }
-        image = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public String toString(){
@@ -209,6 +192,6 @@ public class Bird{
                 "Description: " + description + "\n" +
                 "Place seen: " + place + "\n" +
                 "Time seen: " + time + "\n" +
-                "Image: " + image;
+                "Image: " + imageURI;
     }
 }

@@ -57,7 +57,7 @@ public class ListviewAdapter extends BaseAdapter {
          *  Source: https://stackoverflow.com/questions/26850780/bitmap-circular-crop-in-android
          *  Purpose: Converting bitmap to drawable and rounding its corners
          */
-        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(view.getResources(), birdArray[i].getImage());
+        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(view.getResources(), birdArray[i].getImage(view.getContext()));
         imageDrawable.setCircular(true);
         image.setImageDrawable(imageDrawable);
         return view;

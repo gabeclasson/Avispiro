@@ -5,10 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelperLog";
@@ -54,7 +50,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = " CREATE TABLE " + TABLE_BIRDS + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " INT, " + COLUMN_IMAGE + " BLOB, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
+                COLUMN_NAME + " TEXT, " +  COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PLACE + " TEXT, " + COLUMN_CATEGORY + " INT, " + COLUMN_IMAGE + " TEXT, " + COLUMN_YEAR + " INTEGER, " + COLUMN_MONTH + " INTEGER, " + COLUMN_DATE + " INTEGER, " + COLUMN_HOUR + " INTEGER, " + COLUMN_MINUTE +  " INTEGER ) "+ ";";
         db.execSQL(query);
         String query2 = " CREATE TABLE " + TABLE_CATEGORIES + " ( " + COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_CATEGORY_NAME + " TEXT ) ;";
         db.execSQL(query2);
@@ -75,7 +71,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, bird.getDescription());
         values.put(COLUMN_PLACE, bird.getPlace());
         values.put(COLUMN_CATEGORY, bird.getCategory().getId());
-        values.put(COLUMN_IMAGE, bird.getImageAsBlob());
+        values.put(COLUMN_IMAGE, bird.getImageURI());
         values.put(COLUMN_YEAR, time.getYear());
         values.put(COLUMN_MONTH, time.getMonth());
         values.put(COLUMN_DATE, time.getDate());
@@ -192,7 +188,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 dbstring += c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_PLACE)) + ", ";
                 dbstring += c.getString(c.getColumnIndex(COLUMN_CATEGORY)) + ", ";
-                dbstring += c.getBlob(c.getColumnIndex(COLUMN_IMAGE)) + ", ";
+                dbstring += c.getString(c.getColumnIndex(COLUMN_IMAGE)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_YEAR)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_MONTH)) + ", ";
                 dbstring += c.getInt(c.getColumnIndex(COLUMN_DATE)) + ", ";
@@ -225,7 +221,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
             categoryId = c.getInt(c.getColumnIndex(COLUMN_CATEGORY));
             bird.setCategory(getCategory(categoryId));
-            bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
+            bird.setImageURI(c.getString(c.getColumnIndex(COLUMN_IMAGE)));
             time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
             time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
             time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
@@ -257,7 +253,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 bird.setPlace(c.getString(c.getColumnIndex(COLUMN_PLACE)));
                 categoryId = c.getInt(c.getColumnIndex(COLUMN_CATEGORY));
                 bird.setCategory(getCategory(categoryId));
-                bird.setImageAsBlob(c.getBlob(c.getColumnIndex(COLUMN_IMAGE)));
+                bird.setImageURI(c.getString(c.getColumnIndex(COLUMN_IMAGE)));
                 time.setYear(c.getInt(c.getColumnIndex(COLUMN_YEAR)));
                 time.setMonth(c.getInt(c.getColumnIndex(COLUMN_MONTH)));
                 time.setDate(c.getInt(c.getColumnIndex(COLUMN_DATE)));
@@ -285,7 +281,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, bird.getDescription());
         values.put(COLUMN_PLACE, bird.getPlace());
         values.put(COLUMN_CATEGORY, bird.getCategory().getId());
-        values.put(COLUMN_IMAGE, bird.getImageAsBlob());
+        values.put(COLUMN_IMAGE, bird.getImageURI());
         values.put(COLUMN_YEAR, time.getYear());
         values.put(COLUMN_MONTH, time.getMonth());
         values.put(COLUMN_DATE, time.getDate());

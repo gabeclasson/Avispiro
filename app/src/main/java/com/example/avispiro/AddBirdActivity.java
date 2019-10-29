@@ -47,7 +47,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     private static AddBirdActivity currentActivity = null;
 
-    private Bitmap image;
+    private String imageURI;
     private Time time;
     String currentPhotoPath;
 
@@ -55,7 +55,7 @@ public class AddBirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
-        image = null;
+        imageURI = "";
         time = new Time();
         currentPhotoPath = "";
     }
@@ -86,8 +86,7 @@ public class AddBirdActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 try {
                     final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    image = BitmapFactory.decodeStream(imageStream);
+                    this.imageURI = imageUri.toString();
                     setImageText("Selected");
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -100,7 +99,8 @@ public class AddBirdActivity extends AppCompatActivity {
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
                 try {
-                    image = BitmapFactory.decodeFile(currentPhotoPath);
+                    final Uri imageUri = data.getData();
+                    this.imageURI = imageUri.toString();
                     setImageText("From Camera");
                 }
                 catch (Exception e){
@@ -262,7 +262,7 @@ public class AddBirdActivity extends AppCompatActivity {
         String birdDescription = addBirdDescriptionEdit.getText().toString().trim();
         String birdPlace = addBirdPlaceEdit.getText().toString().trim();
         Category birdCategory = (Category) addBirdCategorySpinner.getSelectedItem();
-        Bitmap birdImage = image;
+        String birdImage = imageURI;
         Time birdTime = time;
         if (birdName.isEmpty()){
             Toast.makeText(this, "You must give your bird a name.", Toast.LENGTH_LONG).show();
@@ -272,7 +272,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setDescription(birdDescription);
         bird.setPlace(birdPlace);
         bird.setCategory(birdCategory);
-        bird.setImage(birdImage);
+        bird.setImageURI(birdImage);
         bird.setTime(birdTime);
         bird.setId(MyDatabaseHelper.getInstance(getApplicationContext()).addBird(bird));
         Intent intent = new Intent(this, StartActivity.class);

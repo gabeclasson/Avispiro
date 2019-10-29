@@ -47,7 +47,7 @@ public class PictureActivity extends AppCompatActivity{
         int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
         Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
-        imageButton.setImageBitmap(birdSelected.getImage());
+        imageButton.setImageBitmap(birdSelected.getImage(this));
         currentPhotoPath = "";
     }
 
@@ -124,7 +124,7 @@ public class PictureActivity extends AppCompatActivity{
                  */
 
                 Intent intentSend = new Intent(Intent.ACTION_SEND);
-                Bitmap selectedImage = birdSelected.getImage();
+                Bitmap selectedImage = birdSelected.getImage(this);
                 String path = MediaStore.Images.Media.insertImage(getContentResolver(), selectedImage, "Your picture", null);
                 intentSend.setType("image/jpg");
                 intentSend.putExtra(Intent.EXTRA_STREAM, path);

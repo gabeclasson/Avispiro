@@ -65,7 +65,7 @@ public class InfoActivity extends AppCompatActivity {
         nameText.setText(birdSelected.getName());
         locationText.setText(birdSelected.getPlace());
         timeText.setText(birdSelected.getTime().toString());
-        imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage()));
+        imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
         ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
     }
 
