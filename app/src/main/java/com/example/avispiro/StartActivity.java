@@ -58,8 +58,8 @@ public class StartActivity extends AppCompatActivity implements Serializable {
 
     @Override
     protected void onResume(){
-        super.onResume();
         updateBirdList();
+        super.onResume();
     }
 
     @Override

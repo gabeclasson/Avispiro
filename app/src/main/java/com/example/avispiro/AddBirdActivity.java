@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -32,9 +33,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,19 +51,15 @@ public class AddBirdActivity extends AppCompatActivity {
 
     private static AddBirdActivity currentActivity = null;
 
-    private String imageURI;
+    private String imageUri;
     private Time time;
-    String currentPhotoPath;
-    String currentPhotoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
-        imageURI = "";
+        imageUri = "";
         time = new Time();
-        currentPhotoPath = "";
-        currentPhotoURI = "";
     }
 
 
@@ -76,7 +76,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
-     * and https://developer.android.com/training/camera/photobasics
+     * and https://developer.android.com/training/camera/photobasics and https://www.baeldung.com/convert-input-stream-to-a-file
      * @param reqCode
      * @param resultCode
      * @param data
@@ -87,9 +87,16 @@ public class AddBirdActivity extends AppCompatActivity {
         if (reqCode == RESULT_RETURN_IMG) {
             if (resultCode == RESULT_OK) {
                 try {
-                    // DEBUG SAVE IMAGES!
-                    final Uri imageUri = data.getData();
-                    this.imageURI = imageUri.toString();
+                    Uri imageUriLocal = data.getData();
+                    InputStream imageStream = getContentResolver().openInputStream(imageUriLocal);
+                    byte[] buffer = new byte[imageStream.available()];
+                    imageStream.read(buffer);
+                    File targetFile = createImageFile();
+                    OutputStream outStream = new FileOutputStream(targetFile);
+                    outStream.write(buffer);
+                    imageStream.close();
+                    outStream.close();
+                    this.imageUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", targetFile).toString();
                     setImageText("Selected");
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -102,7 +109,7 @@ public class AddBirdActivity extends AppCompatActivity {
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
                 try {
-                    this.imageURI = currentPhotoURI;
+                    data.getData();
                     setImageText("From Camera");
                 }
                 catch (Exception e){
@@ -222,11 +229,9 @@ public class AddBirdActivity extends AppCompatActivity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
 
     /**
      * Adapted from https://developer.android.com/training/camera/photobasics
@@ -248,7 +253,7 @@ public class AddBirdActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
-                currentPhotoURI = photoURI.toString();
+                imageUri = photoURI.toString();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
@@ -265,7 +270,7 @@ public class AddBirdActivity extends AppCompatActivity {
         String birdDescription = addBirdDescriptionEdit.getText().toString().trim();
         String birdPlace = addBirdPlaceEdit.getText().toString().trim();
         Category birdCategory = (Category) addBirdCategorySpinner.getSelectedItem();
-        String birdImage = imageURI;
+        String birdImage = imageUri;
         Time birdTime = time;
         if (birdName.isEmpty()){
             Toast.makeText(this, "You must give your bird a name.", Toast.LENGTH_LONG).show();
@@ -278,7 +283,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setImageURI(birdImage);
         bird.setTime(birdTime);
         bird.setId(MyDatabaseHelper.getInstance(getApplicationContext()).addBird(bird));
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(AddBirdActivity.this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
         startActivity(intent);
     }
