@@ -10,6 +10,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -53,10 +54,7 @@ public class InfoActivity extends AppCompatActivity {
          */
         descText.setMovementMethod(new ScrollingMovementMethod());
 
-        /**
-         * Source: https://stackoverflow.com/questions/3323074/android-difference-between-parcelable-and-serializable
-         * Purpose: Serializable, to pass objects through intent
-         */
+        // set text to the bird's information
         Intent intent = getIntent();
         int birdId = intent.getIntExtra(BIRD_ID, 0);
         birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdId);
@@ -67,6 +65,16 @@ public class InfoActivity extends AppCompatActivity {
         timeText.setText(birdSelected.getTime().toString());
         imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
         ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
+
+        // make the text invisible if there isn't any information
+        TextView locationLabel = (TextView) findViewById(R.id.locationLabel);
+        if(birdSelected.getPlace().equals("")){
+            locationLabel.setVisibility(View.INVISIBLE);
+        }
+        TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
+        if(birdSelected.getTime().toString() == null){
+            timeLabel.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -113,6 +121,14 @@ public class InfoActivity extends AppCompatActivity {
                 birdSelectedParam.setCategory(category);
                 birdSelectedParam.setTime(timeParam);
                 MyDatabaseHelper.getInstance(getApplicationContext()).updateBird(birdSelectedParam);
+                /**
+                 * Adapted from: https://stackoverflow.com/questions/2486934/programmatically-relaunch-recreate-an-activity
+                 * Purpose: Seamless editing of activity information
+                 */
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
+
             }
         }).setNegativeButton(R.string.edit_bird_negative_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -144,6 +160,23 @@ public class InfoActivity extends AppCompatActivity {
         Intent intent = new Intent(InfoActivity.this, PictureActivity.class);
         intent.putExtra(PictureActivity.CURRENT_BIRD_ID, birdSelected.getId());
         startActivity(intent);
+    }
+
+    public void onShareClick(View v){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String message = "My bird's name is " + birdSelected.getName() + ". ";
+        message += birdSelected.getDescription();
+
+        if(!birdSelected.getPlace().equals(""))
+            message += "This bird was found in " + birdSelected.getPlace() + " and ";
+
+        if(birdSelected.getTime().toString() != null)
+            message += "found at " + birdSelected.getTime() + ".";
+
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        Intent chosenIntent = Intent.createChooser(intent, "Choose an app to share with");
+        startActivity(chosenIntent);
     }
 
     /**
