@@ -213,6 +213,7 @@ public class PictureActivity extends AppCompatActivity{
         }
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
+                deleteImage(new File(Uri.parse(selectedBird.getImageURI()).getPath()));
                 selectedBird.setImageURI(imageUri);
                 MyDatabaseHelper.getInstance(getApplicationContext()).updateBird(selectedBird);
                 updateImage();
