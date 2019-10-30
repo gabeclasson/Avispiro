@@ -1,10 +1,16 @@
 package com.example.avispiro;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.provider.MediaStore;
+
+import java.io.File;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelperLog";
@@ -87,7 +93,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
      * @param id The id of the bird to remove. If this id is invalid, no bird will be removed.
      * @return The bird that was removed from the database. If a bird by that id could not be found, the method will return null.
      */
-    public Bird removeBird(int id) {
+    public Bird removeBird(int id, Context context) {
         SQLiteDatabase db = getWritableDatabase();
         Bird bird = getBird(id);
         String query = "DELETE FROM " + TABLE_BIRDS + " WHERE " + COLUMN_ID+ " =\"" + id + "\";";
@@ -292,12 +298,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return returned;
     }
 
-    public void deleteAllBirds(String areYouSure){
-        if (areYouSure.equalsIgnoreCase("yes"));{
-            SQLiteDatabase db = getWritableDatabase();
-            String query = "DELETE FROM " + TABLE_BIRDS + " WHERE 1;";
-            db.execSQL(query);
-        }
+    public void deleteAllBirds(Context context){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_BIRDS + " WHERE 1;";
+        db.execSQL(query);
     }
 }
 
