@@ -1,10 +1,16 @@
 package com.example.avispiro;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.provider.MediaStore;
+
+import java.io.File;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelperLog";

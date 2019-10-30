@@ -3,8 +3,11 @@ package com.example.avispiro;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,8 +22,11 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -32,23 +38,32 @@ public class PictureActivity extends AppCompatActivity{
     public static final int RESULT_RETURN_IMG = 7;
     static final int REQUEST_TAKE_PHOTO = 1;
     private Bird selectedBird;
+    private int birdID;
 
     public static final String CURRENT_BIRD_ID = "birdID";
 
-    String currentPhotoPath;
+    private String imageUri;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
-
         Intent intent = getIntent();
-        int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
-        Bird birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
+        birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);
+        imageUri = "";
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectedBird = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdID);
+        updateImage();
+    }
+
+    public void updateImage(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
-        imageButton.setImageBitmap(birdSelected.getImage(this));
-        currentPhotoPath = "";
+        imageButton.setImageBitmap(selectedBird.getImage(this));
     }
 
     public void onClickPopup(View v){
@@ -110,9 +125,7 @@ public class PictureActivity extends AppCompatActivity{
              */
             case R.id.choiceSave:
                 Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                File f = new File(currentPhotoPath);
-                Uri contentUri = Uri.fromFile(f);
-                mediaIntent.setData(contentUri);
+                mediaIntent.setData(Uri.parse(imageUri));
                 this.sendBroadcast(mediaIntent);
 
             case R.id.choiceShare:
@@ -146,6 +159,7 @@ public class PictureActivity extends AppCompatActivity{
                         Uri photoURI = FileProvider.getUriForFile(this,
                                 "com.example.android.fileprovider",
                                 photoFile);
+                        imageUri = photoURI.toString();
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                     }
@@ -175,9 +189,20 @@ public class PictureActivity extends AppCompatActivity{
         if (reqCode == RESULT_RETURN_IMG) {
             if (resultCode == RESULT_OK) {
                 try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    image = BitmapFactory.decodeStream(imageStream);
+                    deleteImage(new File(Uri.parse(selectedBird.getImageURI()).getPath()));
+                    Uri imageUriLocal = data.getData();
+                    InputStream imageStream = getContentResolver().openInputStream(imageUriLocal);
+                    byte[] buffer = new byte[imageStream.available()];
+                    imageStream.read(buffer);
+                    File targetFile = createImageFile();
+                    OutputStream outStream = new FileOutputStream(targetFile);
+                    outStream.write(buffer);
+                    imageStream.close();
+                    outStream.close();
+                    imageUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", targetFile).toString();
+                    selectedBird.setImageURI(imageUri);
+                    MyDatabaseHelper.getInstance(getApplicationContext()).updateBird(selectedBird);
+                    updateImage();
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
@@ -188,12 +213,9 @@ public class PictureActivity extends AppCompatActivity{
         }
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
-                try {
-                    image = BitmapFactory.decodeFile(currentPhotoPath);
-                }
-                catch (Exception e){
-                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
-                }
+                selectedBird.setImageURI(imageUri);
+                MyDatabaseHelper.getInstance(getApplicationContext()).updateBird(selectedBird);
+                updateImage();
             }
             else {
                 Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
@@ -217,8 +239,33 @@ public class PictureActivity extends AppCompatActivity{
                 storageDir      /* directory */
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * Adapted from https://stackoverflow.com/questions/39530663/delete-image-file-from-device-programmatically/39531107
+     * @param file
+     */
+    private void deleteImage(File file) {
+        // Set up the projection (we only need the ID)
+        String[] projection = {MediaStore.Images.Media._ID};
+
+        // Match on the file path
+        String selection = MediaStore.Images.Media.DATA + " = ?";
+        String[] selectionArgs = new String[]{file.getAbsolutePath()};
+
+        // Query for the ID of the media matching the file path
+        Uri queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver contentResolver = getContentResolver();
+        Cursor c = contentResolver.query(queryUri, projection, selection, selectionArgs, null);
+        if (c.moveToFirst()) {
+            // We found the ID. Deleting the item via the content provider will also remove the file
+            long id = c.getLong(c.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+            Uri deleteUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+            contentResolver.delete(deleteUri, null, null);
+        } else {
+            // File not found in media store DB
+        }
+        c.close();
     }
 }

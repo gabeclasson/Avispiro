@@ -35,6 +35,7 @@ public class InfoActivity extends AppCompatActivity {
     private static InfoActivity currentActivity = null;
     private Time time;
     private View dialogView;
+    private int birdId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,6 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         TextView descText = (TextView) findViewById(R.id.textDescription);
-        TextView nameText = (TextView) findViewById(R.id.textName);
-        TextView locationText = (TextView) findViewById(R.id.textLocation);
-        TextView timeText = (TextView) findViewById(R.id.textTime);
-        ImageView imageBird = (ImageView) findViewById(R.id.imageBird);
 
         /**
          *  Source: https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
@@ -58,21 +55,29 @@ public class InfoActivity extends AppCompatActivity {
          * Purpose: Serializable, to pass objects through intent
          */
         Intent intent = getIntent();
-        int birdId = intent.getIntExtra(BIRD_ID, 0);
-        birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdId);
-        time = birdSelected.getTime();
-        descText.setText(birdSelected.getDescription());
-        nameText.setText(birdSelected.getName());
-        locationText.setText(birdSelected.getPlace());
-        timeText.setText(birdSelected.getTime().toString());
-        imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
-        ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
+        birdId = intent.getIntExtra(BIRD_ID, 0);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         currentActivity = this;
+        birdSelected = MyDatabaseHelper.getInstance(getApplicationContext()).getBird(birdId);
+        time = birdSelected.getTime();
+        updateInformation();
+    }
+
+    public void updateInformation(){
+        TextView descText = (TextView) findViewById(R.id.textDescription);
+        TextView nameText = (TextView) findViewById(R.id.textName);
+        TextView locationText = (TextView) findViewById(R.id.textLocation);
+        TextView timeText = (TextView) findViewById(R.id.textTime);
+        ImageView imageBird = (ImageView) findViewById(R.id.imageBird);
+        descText.setText(birdSelected.getDescription());
+        nameText.setText(birdSelected.getName());
+        locationText.setText(birdSelected.getPlace());
+        timeText.setText(birdSelected.getTime().toString());
+        imageBird.setImageBitmap(birdSelected.getImage(this));
     }
 
     /**
