@@ -4,51 +4,53 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryDetailActivity extends AppCompatActivity {
+    public static final String CATEGORY_ID = "categoryId";
+    private AdapterView.OnItemClickListener birdClickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
-
+        setContentView(R.layout.activity_start);
+        Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_categories));
+        getSupportActionBar().setTitle("PLACEHOLDER");
+        super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateCategoryList();
-    }
+    public void updateBirdList(){
+        final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory();
+        final ListView listView = (ListView) findViewById(R.id.listView);
 
-    public void updateCategoryList(){
-        final Category[] categories = MyDatabaseHelper.getInstance(getApplicationContext()).getCategories();
-        ArrayAdapter<Category> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
-
-        ListView listCategories = (ListView) findViewById(R.id.listViewCategories);
-        listCategories.setAdapter(listAdapter);
-
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(CategoryActivity.this, CategoryDetailActivity.class);
-                int categoryId = categories[i].getId();
-                intent.putExtra(CategoryDetailActivity.CATEGORY_ID, categoryId);
+                Intent intent = new Intent(CategoryDetailActivity.this, InfoActivity.class);
+                int birdId = listBirds[i].getId();
+                intent.putExtra(InfoActivity.BIRD_ID, birdId);
                 startActivity(intent);
             }
         };
-
-        listCategories.setOnItemClickListener(itemClickListener);
+        ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(birdClickListener);
     }
 
+    @Override
+    protected void onResume(){
+        updateBirdList();
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -69,6 +71,8 @@ public class CategoryActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.action_categories){
+            Intent intent = new Intent(this, CategoryActivity.class);
+            startActivity(intent);
             return true;
         }
         else if (id == R.id.action_my_birds){
@@ -84,6 +88,4 @@ public class CategoryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddBirdActivity.class);
         startActivity(intent);
     }
-
-
 }

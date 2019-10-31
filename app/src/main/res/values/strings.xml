@@ -19,4 +19,6 @@
     <string name="delete_bird_negative_button">Keep!</string>
     <string name="delete_bird_message">Continuing with this action will permanently delete this bird from your Avispiro app. This activity cannot be undone.</string>
     <string name="category_name_default">Uncategorized</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_categories">Categories</string>
 </resources>
