@@ -142,6 +142,7 @@ public class InfoActivity extends AppCompatActivity {
                         Intent intent = new Intent(currentActivityParam, StartActivity.class);
                         Toast.makeText(currentActivityParam, "Bird deleted.", Toast.LENGTH_LONG).show();
                         startActivity(intent);
+                        currentActivityParam.finish();
                     }
                 }).setNegativeButton(R.string.delete_bird_negative_button, null); // Delete cancel button
                 builder.create().show();
