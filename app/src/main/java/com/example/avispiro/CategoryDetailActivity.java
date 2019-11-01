@@ -14,11 +14,14 @@ import android.widget.ListView;
 
 public class CategoryDetailActivity extends AppCompatActivity {
     public static final String CATEGORY_ID = "categoryId";
+    private int categoryId;
     private AdapterView.OnItemClickListener birdClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_start);
+        Intent intent = getIntent();
+        categoryId = intent.getIntExtra(CATEGORY_ID, 0);
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -27,7 +30,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     }
 
     public void updateBirdList(){
-        final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory();
+        final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory(categoryId);
         final ListView listView = (ListView) findViewById(R.id.listView);
 
         AdapterView.OnItemClickListener birdClickListener = new AdapterView.OnItemClickListener() {
