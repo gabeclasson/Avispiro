@@ -73,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You didn't put an image."
+        android:textColor="@color/colorPrimary"
         app:layout_constraintTop_toBottomOf="@+id/imageDefault"
         app:layout_constraintRight_toRightOf="@+id/imageBird"
         app:layout_constraintLeft_toLeftOf="@+id/imageBird"
@@ -85,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageBird"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:scrollbars="vertical"
         android:text="arb"/>
 
@@ -125,6 +126,7 @@
         app:layout_constraintLeft_toRightOf="@+id/locationLabel"
         android:layout_marginLeft="@dimen/general_margin"
         android:text="asldiughwoeguh" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
