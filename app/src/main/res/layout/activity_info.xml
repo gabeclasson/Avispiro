@@ -60,8 +60,8 @@
 
     <ImageView
         android:id="@+id/imageDefault"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/annoying_dog"
         app:layout_constraintTop_toTopOf="@+id/imageBird"
         app:layout_constraintRight_toRightOf="@+id/imageBird"
@@ -69,9 +69,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageBird"/>
 
     <TextView
+        android:id="@+id/dogText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You didn't put any images."
+        android:text="You didn't put an image."
         app:layout_constraintTop_toBottomOf="@+id/imageDefault"
         app:layout_constraintRight_toRightOf="@+id/imageBird"
         app:layout_constraintLeft_toLeftOf="@+id/imageBird"

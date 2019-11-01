@@ -63,7 +63,14 @@ public class InfoActivity extends AppCompatActivity {
         nameText.setText(birdSelected.getName());
         locationText.setText(birdSelected.getPlace());
         timeText.setText(birdSelected.getTime().toString());
-        imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
+
+        if (birdSelected.getImage(this) != null){
+            imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
+            ImageView dogImage = (ImageView) findViewById(R.id.imageDefault);
+            TextView dogText = (TextView) findViewById(R.id.dogText);
+            dogImage.setVisibility(View.INVISIBLE);
+            dogText.setVisibility(View.INVISIBLE);
+    }
         ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
 
         // make the text invisible if there isn't any information

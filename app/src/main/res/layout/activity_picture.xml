@@ -15,30 +15,31 @@
         <ImageButton
             android:id="@+id/chosenImage"
             android:background="@android:color/transparent"
-            android:layout_width="350dp"
-            android:layout_height="300dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
-            android:id="@+id/imageDefault"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/imageDefault2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/annoying_dog"
-            app:layout_constraintTop_toTopOf="@+id/chosenImage"
-            app:layout_constraintRight_toRightOf="@+id/chosenImage"
-            app:layout_constraintLeft_toLeftOf="@+id/chosenImage"
-            app:layout_constraintBottom_toBottomOf="@+id/chosenImage"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
+            android:id="@+id/dogText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You didn't put any images."
-            app:layout_constraintTop_toBottomOf="@+id/imageDefault"
-            app:layout_constraintRight_toRightOf="@+id/chosenImage"
-            app:layout_constraintLeft_toLeftOf="@+id/chosenImage"
+            android:text="You didn't put an image."
+            app:layout_constraintTop_toBottomOf="@+id/imageDefault2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

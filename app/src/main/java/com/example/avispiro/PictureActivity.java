@@ -18,7 +18,9 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -63,7 +65,13 @@ public class PictureActivity extends AppCompatActivity{
 
     public void updateImage(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
-        imageButton.setImageBitmap(selectedBird.getImage(this));
+        if(selectedBird.getImage(this) != null) {
+            imageButton.setImageBitmap(selectedBird.getImage(this));
+            ImageView dogImage = (ImageView) findViewById(R.id.imageDefault2);
+            TextView dogText = (TextView) findViewById(R.id.dogText2);
+            dogImage.setVisibility(View.INVISIBLE);
+            dogText.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void onClickPopup(View v){
