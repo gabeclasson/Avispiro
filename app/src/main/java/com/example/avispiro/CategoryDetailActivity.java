@@ -25,11 +25,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
         Resources res = getResources();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("PLACEHOLDER");
         super.onCreate(savedInstanceState);
     }
 
     public void updateBirdList(){
+        getSupportActionBar().setTitle(MyDatabaseHelper.getInstance(getApplicationContext()).getCategory(categoryId).getName());
         final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory(categoryId);
         final ListView listView = (ListView) findViewById(R.id.listView);
 
