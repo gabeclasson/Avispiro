@@ -58,6 +58,7 @@ public class AddBirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
+        getActionBar().setTitle(R.string.add_bird_title_text);
         imageUri = "";
         time = new Time();
     }

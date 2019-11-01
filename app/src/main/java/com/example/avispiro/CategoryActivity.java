@@ -1,8 +1,15 @@
 package com.example.avispiro;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,9 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class CategoryActivity extends AppCompatActivity {
+    public static CategoryActivity currentInstance = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +37,7 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateCategoryList();
+        currentInstance = this;
     }
 
     public void updateCategoryList(){
@@ -80,10 +91,37 @@ public class CategoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addBirdOnClick(View v){
-        Intent intent = new Intent(this, AddBirdActivity.class);
-        startActivity(intent);
+    public void addCategoryOnClick(View v){
+        AddCategoryDialog addCategoryDialog = new AddCategoryDialog();
+        addCategoryDialog.show(getSupportFragmentManager(), "dialogaddcategory");
     }
 
+    public static class AddCategoryDialog extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            final CategoryActivity currentActivityParam = currentInstance;
+            final View dialogView = currentActivityParam.getLayoutInflater().inflate(R.layout.dialog_add_category, null);
+            builder.setMessage(R.string.add_category_dialog_message).setView(dialogView).setPositiveButton(R.string.add_category_positive_button, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // Add the category
+                    String name = ((EditText) dialogView.findViewById(R.id.editNameAddCategory)).getText().toString().trim();
+                    if (name.isEmpty()) {
+                        Toast.makeText(currentActivityParam, "Your category must have a name.", Toast.LENGTH_LONG).show();
+                    return;
+                    }
+                    MyDatabaseHelper.getInstance(currentActivityParam.getApplicationContext()).addCategory(new Category(name));
+                    currentActivityParam.updateCategoryList();
+                    Toast.makeText(currentActivityParam, "Category added.", Toast.LENGTH_LONG).show();
+                }
+            }).setNegativeButton(R.string.add_category_negative_button, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Cancel
+                        }
+                    });
+            return builder.create();
+        }
+    }
 
 }

@@ -10,22 +10,17 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -95,7 +90,7 @@ public class InfoActivity extends AppCompatActivity {
     public void onClick(View v){
         // building dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        dialogView = getLayoutInflater().inflate(R.layout.dialogue_edit, null);
+        dialogView = getLayoutInflater().inflate(R.layout.dialog_edit, null);
         // final parameters for passing to internal class
         final EditText nameEdit = (EditText) dialogView.findViewById(R.id.editName);
         final EditText descEdit = (EditText) dialogView.findViewById(R.id.editDesc);
