@@ -18,7 +18,9 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -63,7 +66,13 @@ public class PictureActivity extends AppCompatActivity{
 
     public void updateImage(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
-        imageButton.setImageBitmap(selectedBird.getImage(this));
+        if(selectedBird.getImage(this) != null) {
+            imageButton.setImageBitmap(selectedBird.getImage(this));
+            ImageView dogImage = (ImageView) findViewById(R.id.imageDefault2);
+            TextView dogText = (TextView) findViewById(R.id.dogText2);
+            dogImage.setVisibility(View.INVISIBLE);
+            dogText.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void onClickPopup(View v){
@@ -124,24 +133,36 @@ public class PictureActivity extends AppCompatActivity{
              * Purpose: Save images into gallery
              */
             case R.id.choiceSave:
-                Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaIntent.setData(Uri.parse(imageUri));
-                this.sendBroadcast(mediaIntent);
+                if(birdSelected.getImage(this) != null) {
+                    Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    mediaIntent.setData(Uri.parse(imageUri));
+                    this.sendBroadcast(mediaIntent);
+                }
+                else{
+                    Context context = getApplicationContext();
+                    CharSequence string = "You didn't put an image.";
+                    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+                }
 
             case R.id.choiceShare:
-
                 /**
                  * Source: https://stackoverflow.com/questions/7661875/how-to-use-share-image-using-sharing-intent-to-share-images-in-android
                  * Purpose: Sharing images
                  */
-
-                Intent intentSend = new Intent(Intent.ACTION_SEND);
-                Bitmap selectedImage = birdSelected.getImage(this);
-                String path = MediaStore.Images.Media.insertImage(getContentResolver(), selectedImage, "Your picture", null);
-                intentSend.setType("image/jpg");
-                intentSend.putExtra(Intent.EXTRA_STREAM, path);
-                startActivity(Intent.createChooser(intentSend, "Choose an app to share"));
-                break;
+                if(birdSelected.getImage(this) != null) {
+                    Intent intentSend = new Intent(Intent.ACTION_SEND);
+                    Bitmap selectedImage = birdSelected.getImage(this);
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), selectedImage, "Your picture", null);
+                    intentSend.setType("image/jpg");
+                    intentSend.putExtra(Intent.EXTRA_STREAM, path);
+                    startActivity(Intent.createChooser(intentSend, "Choose an app to share"));
+                    break;
+                }
+                else{
+                    Context context = getApplicationContext();
+                    CharSequence string = "You didn't put an image.";
+                    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+                }
 
             case R.id.choiceTake:
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
