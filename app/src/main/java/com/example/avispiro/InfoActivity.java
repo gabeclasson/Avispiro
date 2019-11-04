@@ -66,7 +66,6 @@ public class InfoActivity extends AppCompatActivity {
             dogImage.setVisibility(View.INVISIBLE);
             dogText.setVisibility(View.INVISIBLE);
     }
-        ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
 
         // make the text invisible if there isn't any information
         TextView locationLabel = (TextView) findViewById(R.id.locationLabel);

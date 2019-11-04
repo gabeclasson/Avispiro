@@ -11,19 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".CategoryDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_categories"></activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".CategoryActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_categories"/>
         <activity android:name=".PictureActivity" />
-        <activity android:name=".AddBirdActivity" />
-        <activity android:name=".InfoActivity" />
+        <activity android:name=".AddBirdActivity"
+            android:label="@string/add_bird_title_text"/>
+        <activity android:name=".InfoActivity"
+            android:label="@string/title_activity_info"/>
         <activity
             android:name=".StartActivity"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
