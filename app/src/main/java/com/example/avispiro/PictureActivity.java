@@ -132,17 +132,6 @@ public class PictureActivity extends AppCompatActivity{
              * Source: https://developer.android.com/training/camera/photobasics.html
              * Purpose: Save images into gallery
              */
-            case R.id.choiceSave:
-                if(birdSelected.getImage(this) != null) {
-                    Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    mediaIntent.setData(Uri.parse(imageUri));
-                    this.sendBroadcast(mediaIntent);
-                }
-                else{
-                    Context context = getApplicationContext();
-                    CharSequence string = "You didn't put an image.";
-                    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
-                }
 
             case R.id.choiceShare:
                 /**
@@ -151,18 +140,27 @@ public class PictureActivity extends AppCompatActivity{
                  */
                 if(birdSelected.getImage(this) != null) {
                     Intent intentSend = new Intent(Intent.ACTION_SEND);
-                    Bitmap selectedImage = birdSelected.getImage(this);
-                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), selectedImage, "Your picture", null);
+                    intentSend.putExtra(Intent.EXTRA_STREAM, Uri.parse(birdSelected.getImageURI()));
                     intentSend.setType("image/jpg");
-                    intentSend.putExtra(Intent.EXTRA_STREAM, path);
                     startActivity(Intent.createChooser(intentSend, "Choose an app to share"));
-                    break;
                 }
                 else{
                     Context context = getApplicationContext();
                     CharSequence string = "You didn't put an image.";
                     Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
                 }
+                break;
+
+            case R.id.choiceSave:
+                if(birdSelected.getImage(this) != null) {
+                    Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                }
+                else{
+                    Context context = getApplicationContext();
+                    CharSequence string = "You didn't put an image.";
+                    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+                }
+                break;
 
             case R.id.choiceTake:
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
