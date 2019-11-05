@@ -25,4 +25,11 @@
     <string name="add_category_dialog_message">Add Category</string>
     <string name="add_category_positive_button">Add</string>
     <string name="add_category_negative_button">Cancel</string>
+    <string name="title_activity_info">Bird Detail</string>
+    <string name="title_activity_start">My Birds</string>
+
+    <string-array name="settingsStringList">
+        <item>Release Your Birds</item>
+        <item>Completely Reset</item>
+    </string-array>
 </resources>

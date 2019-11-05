@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class CategoryDetailActivity extends AppCompatActivity {
     public static final String CATEGORY_ID = "categoryId";
@@ -19,17 +20,14 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_category_detail);
         Intent intent = getIntent();
         categoryId = intent.getIntExtra(CATEGORY_ID, 0);
         Resources res = getResources();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         super.onCreate(savedInstanceState);
     }
 
     public void updateBirdList(){
-        getSupportActionBar().setTitle(MyDatabaseHelper.getInstance(getApplicationContext()).getCategory(categoryId).getName());
         final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory(categoryId);
         final ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -45,6 +43,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
         ListviewAdapter adapter = new ListviewAdapter(getApplicationContext(), listBirds);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(birdClickListener);
+        TextView categoryName = findViewById(R.id.categoryDetailTextName);
+        categoryName.setText(MyDatabaseHelper.getInstance(getApplicationContext()).getCategory(categoryId).getName());
     }
 
     @Override
@@ -53,39 +53,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        else if (id == R.id.action_categories){
-            Intent intent = new Intent(this, CategoryActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        else if (id == R.id.action_my_birds){
-            Intent intent = new Intent(this, StartActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void addBirdOnClick(View v){
         Intent intent = new Intent(this, AddBirdActivity.class);

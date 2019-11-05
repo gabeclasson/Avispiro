@@ -5,33 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="right"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".StartActivity">
+    >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+            <TextView
+                android:id="@+id/categoryDetailTextName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_spacing"
+                android:text="Category Name"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+            <ImageButton
+                android:id="@+id/categoryDetailButtonEdit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/close_spacing"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_edit"
+                android:tint="#000000"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryDetailTextName"
+                app:layout_constraintStart_toEndOf="@+id/categoryDetailTextName"
+                app:layout_constraintTop_toTopOf="@+id/categoryDetailTextName"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ListView
             android:id="@+id/listView"
+            android:layout_marginTop="@dimen/close_spacing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <ImageButton
