@@ -151,17 +151,6 @@ public class PictureActivity extends AppCompatActivity{
                 }
                 break;
 
-            case R.id.choiceSave:
-                if(birdSelected.getImage(this) != null) {
-                    Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                }
-                else{
-                    Context context = getApplicationContext();
-                    CharSequence string = "You didn't put an image.";
-                    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
-                }
-                break;
-
             case R.id.choiceTake:
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent

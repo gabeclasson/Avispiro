@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import android.app.Dialog;
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -76,7 +77,7 @@ public class StartActivity extends AppCompatActivity implements Serializable {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, OptionsActivity.class);
             startActivity(intent);
             return true;
         }

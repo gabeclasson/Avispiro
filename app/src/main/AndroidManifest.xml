@@ -17,9 +17,6 @@
             android:name=".CategoryDetailActivity"
             android:label="@string/title_activity_categories" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_categories"
             android:theme="@style/AppTheme.NoActionBar" />

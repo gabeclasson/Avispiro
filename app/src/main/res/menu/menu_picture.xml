@@ -4,10 +4,6 @@
         android:icon="@drawable/ic_share"
         android:title="Share"/>
 
-    <item android:id="@+id/choiceSave"
-        android:icon="@drawable/ic_save"
-        android:title="Save"/>
-
     <item android:id="@+id/choiceTake"
         android:icon="@drawable/ic_photo"
         android:title="Take new photo" />
