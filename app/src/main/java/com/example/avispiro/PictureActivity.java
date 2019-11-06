@@ -64,6 +64,11 @@ public class PictureActivity extends AppCompatActivity{
         updateImage();
     }
 
+    /**
+     * @param: none
+     * @return: none
+     * Purpose: Update the image
+     */
     public void updateImage(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.chosenImage);
         if(selectedBird.getImage(this) != null) {
@@ -81,7 +86,7 @@ public class PictureActivity extends AppCompatActivity{
 
     /**
      * Source: https://www.androhub.com/android-popup-menu/
-     * Purpose: Force menu to show icons using an unnecessarily complicated process
+     * Purpose: Force menu to show icons
      * @param view
      */
     public void showPopup(View view, int style) {

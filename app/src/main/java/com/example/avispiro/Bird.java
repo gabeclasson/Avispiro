@@ -25,6 +25,12 @@ public class Bird{
     private int id;
     private String imageURI;
 
+    /**
+     *
+     * @param drawable
+     * @return bitmap
+     * Purpose: convert a drawable to a bitmap
+     */
     public static Bitmap drawableToBitmap (Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
@@ -39,6 +45,13 @@ public class Bird{
         return bitmap;
     }
 
+    /**
+     *
+     * @param context
+     * @param bitmap
+     * @return: drawable
+     * Purpose: Quite literally convert from bitmap to drawable
+     */
     public static Drawable bitmapToDrawable (Context context, Bitmap bitmap){
         return new BitmapDrawable(context.getResources(), bitmap);
     }
