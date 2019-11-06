@@ -20,7 +20,7 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_options);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(R.string.title_activity_settings);
 
         Button deleteButton = (Button) findViewById(R.id.deleteButton);
     }

@@ -38,6 +38,19 @@
     <string name="delete_category_positive_button">Delete</string>
     <string name="delete_category_negative_button">Keep!</string>
     <string name="delete_category_success_message">Category deleted.</string>
+    <string name="image_selected">Selected</string>
+    <string name="photo_taken">From Camera</string>
+    <string name="image_selected_error">Something went wrong.</string>
+    <string name="image_missing_error">You didn\'t choose a photo.</string>
+    <string name="bird_added_success">Bird added.</string>
+    <string name="bird_added_error">You must give your bird a name.</string>
+    <string name="category_added_error">You must give your category a name.</string>
+    <string name="category_added_success">Category added.</string>
+    <string name="bird_deleted_success">Bird deleted.</string>
+    <string name="bird_info_share_message">Choose an app to share with.</string>
+    <string name="bird_info_share_name">My bird\'s name is </string>
+    <string name="bird_info_share_place">Seen at </string>
+    <string name="bird_info_share_time">Found on </string>
     <string-array name="settingsStringList">
         <item>Release Your Birds</item>
         <item>Completely Reset</item>

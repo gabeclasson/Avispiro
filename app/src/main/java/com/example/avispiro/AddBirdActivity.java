@@ -108,27 +108,27 @@ public class AddBirdActivity extends AppCompatActivity {
                     imageStream.close();
                     outStream.close();
                     this.imageUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", targetFile).toString();
-                    setImageText("Selected");
+                    setImageText(getString(R.string.image_selected));
                 } catch (Exception e) {
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.image_selected_error, Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
             }
         }
         if (reqCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK){
                 try {
                     data.getData();
-                    setImageText("From Camera");
+                    setImageText(getString(R.string.photo_taken));
                 }
                 catch (Exception e){
-                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.image_selected_error, Toast.LENGTH_LONG).show();
                 }
             }
             else {
-                Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -257,7 +257,7 @@ public class AddBirdActivity extends AppCompatActivity {
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image_selected_error, Toast.LENGTH_LONG).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -284,7 +284,7 @@ public class AddBirdActivity extends AppCompatActivity {
         String birdImage = imageUri;
         Time birdTime = time;
         if (birdName.isEmpty()){
-            Toast.makeText(this, "You must give your bird a name.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.bird_added_error, Toast.LENGTH_LONG).show();
             return;
         }
         bird.setName(birdName);
@@ -295,7 +295,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setTime(birdTime);
         bird.setId(MyDatabaseHelper.getInstance(getApplicationContext()).addBird(bird));
         Intent intent = new Intent(AddBirdActivity.this, StartActivity.class);
-        Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.bird_added_success, Toast.LENGTH_LONG).show();
         finish();
     }
 

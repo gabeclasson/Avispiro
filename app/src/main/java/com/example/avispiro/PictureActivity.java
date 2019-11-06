@@ -142,11 +142,11 @@ public class PictureActivity extends AppCompatActivity{
                     Intent intentSend = new Intent(Intent.ACTION_SEND);
                     intentSend.putExtra(Intent.EXTRA_STREAM, Uri.parse(birdSelected.getImageURI()));
                     intentSend.setType("image/jpg");
-                    startActivity(Intent.createChooser(intentSend, "Choose an app to share"));
+                    startActivity(Intent.createChooser(intentSend, getString(R.string.bird_info_share_message)));
                 }
                 else{
                     Context context = getApplicationContext();
-                    CharSequence string = "You didn't put an image.";
+                    CharSequence string = getString(R.string.image_missing_error);
                     Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -160,7 +160,7 @@ public class PictureActivity extends AppCompatActivity{
                     try {
                         photoFile = createImageFile();
                     } catch (IOException ex) {
-                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
                     }
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
@@ -212,11 +212,11 @@ public class PictureActivity extends AppCompatActivity{
                     MyDatabaseHelper.getInstance(getApplicationContext()).updateBird(selectedBird);
                     updateImage();
                 } catch (Exception e) {
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.image_selected_error, Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
             }
         }
         if (reqCode == REQUEST_TAKE_PHOTO){
@@ -227,7 +227,7 @@ public class PictureActivity extends AppCompatActivity{
                 updateImage();
             }
             else {
-                Toast.makeText(this, "You didn't take a photo", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
             }
         }
     }

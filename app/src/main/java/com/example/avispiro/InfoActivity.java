@@ -142,7 +142,7 @@ public class InfoActivity extends AppCompatActivity {
                         // Delete confirmation button
                         MyDatabaseHelper.getInstance(getApplicationContext()).removeBird(birdSelectedParam.getId(),currentActivityParam);
                         Intent intent = new Intent(currentActivityParam, StartActivity.class);
-                        Toast.makeText(currentActivityParam, "Bird deleted.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(currentActivityParam, R.string.bird_deleted_success, Toast.LENGTH_LONG).show();
                         startActivity(intent);
                         currentActivityParam.finish();
                     }
@@ -168,17 +168,17 @@ public class InfoActivity extends AppCompatActivity {
     public void onShareClick(View v){
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String message = "My bird's name is " + birdSelected.getName() + ". ";
+        String message = getString(R.string.bird_info_share_name) + birdSelected.getName() + ". ";
         message += birdSelected.getDescription();
 
         if(!birdSelected.getPlace().equals(""))
-            message += "This bird was found in " + birdSelected.getPlace() + " and ";
+            message += getString(R.string.bird_info_share_place) + birdSelected.getPlace() + ". ";
 
         if(birdSelected.getTime().toString() != null)
-            message += "found at " + birdSelected.getTime() + ".";
+            message += getString(R.string.bird_info_share_time) + birdSelected.getTime() + ". ";
 
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        Intent chosenIntent = Intent.createChooser(intent, "Choose an app to share with");
+        Intent chosenIntent = Intent.createChooser(intent, getString(R.string.bird_info_share_message));
         startActivity(chosenIntent);
     }
 

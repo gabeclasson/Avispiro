@@ -108,12 +108,12 @@ public class CategoryActivity extends AppCompatActivity {
                     // Add the category
                     String name = ((EditText) dialogView.findViewById(R.id.editNameAddCategory)).getText().toString().trim();
                     if (name.isEmpty()) {
-                        Toast.makeText(currentActivityParam, "Your category must have a name.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(currentActivityParam, R.string.category_added_error, Toast.LENGTH_LONG).show();
                     return;
                     }
                     MyDatabaseHelper.getInstance(currentActivityParam.getApplicationContext()).addCategory(new Category(name));
                     currentActivityParam.updateCategoryList();
-                    Toast.makeText(currentActivityParam, "Category added.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(currentActivityParam, R.string.category_added_success, Toast.LENGTH_LONG).show();
                 }
             }).setNegativeButton(R.string.add_category_negative_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
