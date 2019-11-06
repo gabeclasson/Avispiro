@@ -88,6 +88,7 @@ public class AddBirdActivity extends AppCompatActivity {
     /**
      * Adapted from https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
      * and https://developer.android.com/training/camera/photobasics and https://www.baeldung.com/convert-input-stream-to-a-file
+     * After the user chooses/takes a photo, this method is run. It deals with the result of these pickers.
      * @param reqCode
      * @param resultCode
      * @param data
@@ -95,9 +96,10 @@ public class AddBirdActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-        if (reqCode == RESULT_RETURN_IMG) {
+        if (reqCode == RESULT_RETURN_IMG) { // Chosen an image
             if (resultCode == RESULT_OK) {
                 try {
+                    //Tries to decode the image and write it to storage
                     Uri imageUriLocal = data.getData();
                     InputStream imageStream = getContentResolver().openInputStream(imageUriLocal);
                     byte[] buffer = new byte[imageStream.available()];
@@ -117,7 +119,7 @@ public class AddBirdActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.image_missing_error, Toast.LENGTH_LONG).show();
             }
         }
-        if (reqCode == REQUEST_TAKE_PHOTO){
+        if (reqCode == REQUEST_TAKE_PHOTO){ // take a photo
             if (resultCode == RESULT_OK){
                 try {
                     data.getData();
@@ -133,6 +135,10 @@ public class AddBirdActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Begins the process of picking a time at which this bird was seen. This method will start a date picker and then a time picker.
+     * @param v
+     */
     public void pickTime(View v) {
         time = new Time();
         DialogFragment newFragment = new DatePickerFragment();
@@ -141,6 +147,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * Adapted from https://developer.android.com/guide/topics/ui/controls/pickers
+     * Class to pick a date
      */
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -168,6 +175,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * Pickers adapted from https://developer.android.com/guide/topics/ui/controls/pickers
+     * Class to pick a time
      */
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -196,11 +204,19 @@ public class AddBirdActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the text content of the visible "Time" field within the activity
+     * @param time The Time object which represents the time the bird was seen.
+     */
     public void setTimeText(Time time){
         EditText birdTimeEdit = findViewById(R.id.addBirdTimeEdit);
         birdTimeEdit.setText(time.toString());
     }
 
+    /**
+     * Sets the text content of the visible "Image" field wtihin the activity
+     * @param name Some message indicating the nature of the image selected for the user to see.
+     */
     public void setImageText(String name){
         EditText birdImageEdit = findViewById(R.id.addBirdImageEdit);
         birdImageEdit.setText(name);
@@ -208,6 +224,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * Adapted from https://developer.android.com/training/permissions/requesting.html
+     * Begins the process of picking an image from storage
      * @param v
      */
     public void pickImage(View v){
