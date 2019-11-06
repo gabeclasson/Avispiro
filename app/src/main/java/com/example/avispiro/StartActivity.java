@@ -37,6 +37,12 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
     }
 
+
+    /**
+     * @param: none
+     * @return: none
+     * Purpose: Update the bird list for when the screen is reopened in the app
+     */
     public void updateBirdList(){
         final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirds();
         final ListView listView = (ListView) findViewById(R.id.listView);
@@ -68,6 +74,12 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return boolean
+     * Purpose: Sets up the toobar menu, which was here by default when project was created
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -93,6 +105,10 @@ public class StartActivity extends AppCompatActivity implements Serializable {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param v
+     */
     public void addBirdOnClick(View v){
         Intent intent = new Intent(StartActivity.this, AddBirdActivity.class);
         startActivity(intent);

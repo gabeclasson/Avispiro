@@ -90,11 +90,29 @@
         android:scrollbars="vertical"
         android:text="arb"/>
 
+     <TextView
+         android:id="@+id/categoryLabel"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/categoryLabel"
+         app:layout_constraintTop_toBottomOf="@+id/textDescription"
+         app:layout_constraintLeft_toLeftOf="@+id/textDescription"
+         android:layout_marginTop="@dimen/general_margin"/>
+
+    <TextView
+        android:id="@+id/categoryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/categoryLabel"
+        app:layout_constraintTop_toTopOf="@id/categoryLabel"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:text="iasdjhgoaiengwoegh"/>
+
     <TextView
         android:id="@+id/timeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textDescription"
+        app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
         app:layout_constraintLeft_toLeftOf="@+id/textDescription"
         android:layout_marginTop="@dimen/general_margin"
         android:text="Time:"

@@ -120,8 +120,13 @@ public class PictureActivity extends AppCompatActivity{
         popup.show();
     }
 
+    /**
+     * @param item
+     * @return boolean
+     * Purpose: The menu for when the menu button is clicked. Allows the user to share the photo, take a new photo, or
+     *          choose a new one.
+     */
     public boolean onMenuItemClick(MenuItem item){
-
         MyDatabaseHelper databaseHelper = new MyDatabaseHelper(this, null, null, 0);
         Intent intent = getIntent();
         int birdID = intent.getIntExtra(CURRENT_BIRD_ID, 0);

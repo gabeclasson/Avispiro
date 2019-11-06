@@ -42,4 +42,5 @@
         <item>Release Your Birds</item>
         <item>Completely Reset</item>
     </string-array>
+    <string name="categoryLabel">Category:</string>
 </resources>
