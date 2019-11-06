@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -48,11 +49,12 @@ public class AddBirdActivity extends AppCompatActivity {
     public static final int RESULT_RETURN_IMG = 7;
     public static final int REQUEST_TAKE_PHOTO = 1;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 9;
-
+    public static final String DEFAULT_CATEGORY_ID = "defaultCategoryId";
     private static AddBirdActivity currentActivity = null;
 
     private String imageUri;
     private Time time;
+    private int defaultCategoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class AddBirdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_bird);
         imageUri = "";
         time = new Time();
+        Intent intent = getIntent();
+        defaultCategoryId = intent.getIntExtra(DEFAULT_CATEGORY_ID, 1);
     }
 
 
@@ -68,10 +72,17 @@ public class AddBirdActivity extends AppCompatActivity {
         super.onResume();
         currentActivity = this;
         // get categories
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, MyDatabaseHelper.getInstance(getApplicationContext()).getCategories());
+        Category [] categories = MyDatabaseHelper.getInstance(getApplicationContext()).getCategories();
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,  categories);
         Spinner addBirdCategorySpinner = findViewById(R.id.addBirdCategorySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
         addBirdCategorySpinner.setAdapter(adapter);
+        int i = 0;
+        while(i < categories.length && categories[i].getId() != defaultCategoryId){
+            i++;
+        }
+        if (i < categories.length)
+            addBirdCategorySpinner.setSelection(i);
     }
 
     /**
@@ -285,7 +296,7 @@ public class AddBirdActivity extends AppCompatActivity {
         bird.setId(MyDatabaseHelper.getInstance(getApplicationContext()).addBird(bird));
         Intent intent = new Intent(AddBirdActivity.this, StartActivity.class);
         Toast.makeText(this, "Bird added.", Toast.LENGTH_LONG).show();
-        startActivity(intent);
+        finish();
     }
 
     public Time getTime() {

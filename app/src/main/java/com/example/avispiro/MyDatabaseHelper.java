@@ -117,7 +117,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public Category removeCategory(int id) {
         SQLiteDatabase db = getWritableDatabase();
         Category category = getCategory(id);
-        String query = "DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_ID + " =\"" + id + "\";";
+        String query = "DELETE FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_CATEGORY_ID + " =\"" + id + "\";";
         db.execSQL(query);
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY, 1);
@@ -135,7 +135,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return null;
         Category out = getCategory(category.getId());
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CATEGORY_NAME, category.getId());
+        values.put(COLUMN_CATEGORY_NAME, category.getName());
         SQLiteDatabase db = getWritableDatabase();
         db.update(TABLE_CATEGORIES, values, COLUMN_CATEGORY_ID + " = '" + category.getId() + "';", null);
         return out;
