@@ -271,6 +271,11 @@ public class AddBirdActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param v
+     * Purpose: Adds a bird with the given information to the designated category
+     */
     public void addBird(View v){
         Bird bird = new Bird();
         EditText addBirdNameEdit = findViewById(R.id.addBirdNameEdit);

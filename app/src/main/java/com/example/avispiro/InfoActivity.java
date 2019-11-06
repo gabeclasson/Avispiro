@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 public class InfoActivity extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class InfoActivity extends AppCompatActivity {
         TextView nameText = (TextView) findViewById(R.id.textName);
         TextView locationText = (TextView) findViewById(R.id.textLocation);
         TextView timeText = (TextView) findViewById(R.id.textTime);
+        TextView categoryText = (TextView)findViewById(R.id.categoryText);
         ImageView imageBird = (ImageView) findViewById(R.id.imageBird);
 
         /**
@@ -59,7 +62,9 @@ public class InfoActivity extends AppCompatActivity {
         nameText.setText(birdSelected.getName());
         locationText.setText(birdSelected.getPlace());
         timeText.setText(birdSelected.getTime().toString());
+        categoryText.setText(birdSelected.getCategory().getName());
 
+        // If the user doesn't put any image, the app puts a default image
         if (birdSelected.getImage(this) != null){
             imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
             ImageView dogImage = (ImageView) findViewById(R.id.imageDefault);
@@ -68,9 +73,9 @@ public class InfoActivity extends AppCompatActivity {
             dogText.setVisibility(View.INVISIBLE);
     }
 
-        // make the text invisible if there isn't any information
+        // make the text for location and time invisible if there isn't any information
         TextView locationLabel = (TextView) findViewById(R.id.locationLabel);
-        if(birdSelected.getPlace().equals("")){
+        if(birdSelected.getPlace().equals("")) {
             locationLabel.setVisibility(View.INVISIBLE);
         }
         TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
@@ -165,6 +170,11 @@ public class InfoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     *
+     * @param v
+     * Purpose: Format information of the bird for sharing with different SMS apps
+     */
     public void onShareClick(View v){
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

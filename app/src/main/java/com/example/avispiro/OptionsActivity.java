@@ -25,6 +25,11 @@ public class OptionsActivity extends AppCompatActivity {
         Button deleteButton = (Button) findViewById(R.id.deleteButton);
     }
 
+    /**
+     * @param v
+     * @return: none
+     * Purpose: gone. reduced to atoms.
+     */
     public void deleteOnClick(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.delete_bird_title).setMessage(R.string.delete_bird_message).setPositiveButton(R.string.delete_bird_positive_button, new DialogInterface.OnClickListener(){

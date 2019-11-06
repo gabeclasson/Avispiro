@@ -21,13 +21,14 @@ public class ListviewAdapter extends BaseAdapter {
 
     /**
      *  Source: https://abhiandroid.com/ui/listview
-     *  Purpose: Making custom Listview adapter
+     *  Purpose: Making custom Listview adapter to make the listview menu look different
      */
     private Bird[] birdArray;
     private LayoutInflater inflater;
 
     public ListviewAdapter(Context applicationContext, Bird[] birdArray) {
         this.birdArray = birdArray;
+        // the inflater acts as a template for creating a view
         inflater = LayoutInflater.from(applicationContext);
     }
 
@@ -45,6 +46,13 @@ public class ListviewAdapter extends BaseAdapter {
         return 0;
     }
 
+    /**
+     * @param i
+     * @param view
+     * @param viewGroup
+     * @return View, the individual menus in a listview
+     * Purpose: set all the pictures, text, etc. to be displayed to a user
+     */
     public View getView(int i, View view, ViewGroup viewGroup){
         view = inflater.inflate(R.layout.listview_layout, null);
         ImageView image = (ImageView) view.findViewById(R.id.imageBird);
