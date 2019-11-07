@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".OptionsActivity"
+            android:label="Options"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".CategoryDetailActivity"
