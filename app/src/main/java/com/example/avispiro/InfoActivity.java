@@ -39,20 +39,31 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+        /**
+         *  Source: https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
+         *  Purpose: Scrolling textview
+         */
+        TextView descText = (TextView) findViewById(R.id.textDescription);
+        descText.setMovementMethod(new ScrollingMovementMethod());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        currentActivity = this;
+        updateInformation();
+    }
+
+    /**
+     * Updates activity information
+     */
+    public void updateInformation(){
         TextView descText = (TextView) findViewById(R.id.textDescription);
         TextView nameText = (TextView) findViewById(R.id.textName);
         TextView locationText = (TextView) findViewById(R.id.textLocation);
         TextView timeText = (TextView) findViewById(R.id.textTime);
         TextView categoryText = (TextView)findViewById(R.id.categoryText);
         ImageView imageBird = (ImageView) findViewById(R.id.imageBird);
-
-        /**
-         *  Source: https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
-         *  Purpose: Scrolling textview
-         */
-        descText.setMovementMethod(new ScrollingMovementMethod());
-
         // set text to the bird's information
         Intent intent = getIntent();
         int birdId = intent.getIntExtra(BIRD_ID, 0);
@@ -63,7 +74,6 @@ public class InfoActivity extends AppCompatActivity {
         locationText.setText(birdSelected.getPlace());
         timeText.setText(birdSelected.getTime().toString());
         categoryText.setText(birdSelected.getCategory().getName());
-
         // If the user doesn't put any image, the app puts a default image
         if (birdSelected.getImage(this) != null){
             imageBird.setImageDrawable(birdSelected.bitmapToDrawable(this, birdSelected.getImage(this)));
@@ -71,8 +81,7 @@ public class InfoActivity extends AppCompatActivity {
             TextView dogText = (TextView) findViewById(R.id.dogText);
             dogImage.setVisibility(View.INVISIBLE);
             dogText.setVisibility(View.INVISIBLE);
-    }
-
+        }
         // make the text for location and time invisible if there isn't any information
         TextView locationLabel = (TextView) findViewById(R.id.locationLabel);
         if(birdSelected.getPlace().equals("")) {
@@ -82,12 +91,6 @@ public class InfoActivity extends AppCompatActivity {
         if(birdSelected.getTime().toString() == null){
             timeLabel.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        currentActivity = this;
     }
 
     /**
