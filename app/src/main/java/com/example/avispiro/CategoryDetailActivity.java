@@ -33,6 +33,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Updates the information within this activity
+     */
     public void updateBirdList(){
         final Bird[] listBirds = MyDatabaseHelper.getInstance(getApplicationContext()).getAllBirdsInCategory(categoryId);
         final ListView listView = (ListView) findViewById(R.id.listView);
@@ -59,13 +62,20 @@ public class CategoryDetailActivity extends AppCompatActivity {
         super.onResume();
     }
 
-
+    /**
+     * Brings up the AddBird Activity
+     * @param v
+     */
     public void addBirdOnClick(View v){
         Intent intent = new Intent(this, AddBirdActivity.class);
         intent.putExtra(AddBirdActivity.DEFAULT_CATEGORY_ID, categoryId);
         startActivity(intent);
     }
 
+    /**
+     * Brings up a dialog to edit the category. Information is prefilled in
+     * @param v
+     */
     public void editCategory(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_category, null);

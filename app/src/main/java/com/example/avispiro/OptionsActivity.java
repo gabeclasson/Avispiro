@@ -42,8 +42,6 @@ public class OptionsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, OptionsActivity.class);
-            startActivity(intent);
             return true;
         }
         else if (id == R.id.action_categories){
@@ -52,6 +50,8 @@ public class OptionsActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.action_my_birds){
+            Intent intent = new Intent(this, StartActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -65,7 +65,7 @@ public class OptionsActivity extends AppCompatActivity {
      */
     public void deleteOnClick(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.delete_bird_title).setMessage(R.string.delete_bird_message).setPositiveButton(R.string.delete_bird_positive_button, new DialogInterface.OnClickListener(){
+        builder.setTitle(R.string.delete_bird_title).setMessage(R.string.delete_birds_message).setPositiveButton(R.string.delete_bird_positive_button, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Delete confirmation button

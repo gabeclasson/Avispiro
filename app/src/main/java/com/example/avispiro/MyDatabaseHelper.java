@@ -14,6 +14,7 @@ import java.io.File;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelperLog";
+    //String constants for SQLite
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "birds.db";
 
@@ -36,6 +37,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public static MyDatabaseHelper databaseHelper;
 
+    /**
+     * Every time the database helper is to be used, this instance get method should be used. Do not instantiate MyDatabaseHelpers without using this method.
+     * @param context
+     * @return
+     */
     public static MyDatabaseHelper getInstance(Context context){
         if (databaseHelper == null)
             databaseHelper = new MyDatabaseHelper(context, null, null, 0);
@@ -101,6 +107,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return bird;
     }
 
+    /**
+     * Adds a category to the database
+     * @param category The category to add to the database - the id is not relevant.
+     * @return The id of the category within the database. The id of Category category should immediately be set to this value.
+     */
     public int addCategory(Category category) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY_NAME, category.getName());
@@ -111,8 +122,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Removes a given category and uncategorizes all birds with the given category.
-     * @param id
-     * @return
+     * @param id The id of the category to be removed
+     * @return The Category which was removed
      */
     public Category removeCategory(int id) {
         SQLiteDatabase db = getWritableDatabase();
@@ -127,8 +138,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Updates a category's name
-     * @param category
-     * @return
+     * @param category The Category whose name is to be updated
+     * @return The Category which was updated
      */
     public Category updateCategory(Category category){
         if (category.getId() < 0)
@@ -141,6 +152,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return out;
     }
 
+    /**
+     * Gets a category given an id
+     * @param id The id of the category to be retrieved
+     * @return The category with the given id.
+     */
     public Category getCategory(int id) {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_CATEGORY_ID + " = '" + id + "' ; ";
@@ -157,6 +173,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    /**
+     * Gets every category within the database.
+     * @return An array of every category within the database
+     */
     public Category[] getCategories() {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE 1";
@@ -175,7 +195,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns a rudimentary representation of the database as a string
+     * Returns a rudimentary representation of the database as a string. For debug purposes only
      * @return
      */
     public String databasetoString() {
@@ -242,6 +262,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    /**
+     * Gets every bird from the database
+     * @return An array of every bird within the database
+     */
     public Bird[] getAllBirds(){
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE 1";
@@ -275,6 +299,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return out;
     }
 
+    /**
+     * Gets every bird within a given category
+     * @param id The id of the given category.
+     * @return An array of every bird within the category with the given id.
+     */
     public Bird[] getAllBirdsInCategory(int id){
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_BIRDS + " WHERE " + COLUMN_CATEGORY + " = '" + id + "';";
@@ -308,6 +337,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return out;
     }
 
+    /**
+     * Updates a bird's information.
+     * @param bird The bird whose information is to be updated. This bird will be only identified within the database by its id. The id of a bird cannot be changed.
+     * @return The bird representing the information that was destroyed due to the update.
+     */
     public Bird updateBird(Bird bird){
         if (bird.getId() < 0)
             return null;
@@ -331,6 +365,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return returned;
     }
 
+    /**
+     * Deletes every bird within the database.
+     * @param context
+     */
     public void deleteAllBirds(Context context){
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " + TABLE_BIRDS + " WHERE 1;";

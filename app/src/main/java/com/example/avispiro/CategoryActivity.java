@@ -40,6 +40,9 @@ public class CategoryActivity extends AppCompatActivity {
         currentInstance = this;
     }
 
+    /**
+     * Updates the information within this activity.
+     */
     public void updateCategoryList(){
         final Category[] categories = MyDatabaseHelper.getInstance(getApplicationContext()).getCategories();
         ArrayAdapter<Category> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
@@ -91,6 +94,10 @@ public class CategoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Brings up a dialog to prompt the user to add a category.
+     * @param v
+     */
     public void addCategoryOnClick(View v){
         AddCategoryDialog addCategoryDialog = new AddCategoryDialog();
         addCategoryDialog.show(getSupportFragmentManager(), "dialogaddcategory");

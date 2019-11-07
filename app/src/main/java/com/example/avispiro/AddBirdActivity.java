@@ -244,7 +244,8 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * https://developer.android.com/training/camera/photobasics
-     * @return
+     * Creates an image file
+     * @return The image file it created
      * @throws IOException
      */
     private File createImageFile() throws IOException {
@@ -263,6 +264,7 @@ public class AddBirdActivity extends AppCompatActivity {
 
     /**
      * Adapted from https://developer.android.com/training/camera/photobasics
+     * Begins the process of getting an image from the ACTION_IMAGE_CAPTURE intent
      * @param v
      */
     public void takeImage(View v) {

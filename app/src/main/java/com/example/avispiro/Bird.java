@@ -200,6 +200,10 @@ public class Bird{
         }
     }
 
+    /**
+     * Debug purposes only
+     * @return
+     */
     public String toString(){
         return name + " (" + "of category '" + category + "'): " + "\n" +
                 "Description: " + description + "\n" +
