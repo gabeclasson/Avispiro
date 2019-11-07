@@ -64,13 +64,6 @@ public class AddBirdActivity extends AppCompatActivity {
         time = new Time();
         Intent intent = getIntent();
         defaultCategoryId = intent.getIntExtra(DEFAULT_CATEGORY_ID, 1);
-    }
-
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        currentActivity = this;
         // get categories
         Category [] categories = MyDatabaseHelper.getInstance(getApplicationContext()).getCategories();
         ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,  categories);
@@ -83,6 +76,13 @@ public class AddBirdActivity extends AppCompatActivity {
         }
         if (i < categories.length)
             addBirdCategorySpinner.setSelection(i);
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        currentActivity = this;
     }
 
     /**
